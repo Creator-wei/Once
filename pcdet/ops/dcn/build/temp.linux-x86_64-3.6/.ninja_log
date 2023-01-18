@@ -1,0 +1,3 @@
+# ninja log v5
+0	7802	1672840824030005960	/home/weiguo/ONCE_Benchmark/pcdet/ops/dcn/build/temp.linux-x86_64-3.6/src/deform_conv_cuda_kernel.o	f57eba38e21385dd
+0	12949	1672840829173996172	/home/weiguo/ONCE_Benchmark/pcdet/ops/dcn/build/temp.linux-x86_64-3.6/src/deform_conv_cuda.o	213d6cbe8358ad10
