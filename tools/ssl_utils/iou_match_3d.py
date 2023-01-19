@@ -32,10 +32,8 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc):
         for cls_idx in range(num_classes):
             class_mask = label_preds == (cls_idx + 1)
             iou_th[class_mask] = iou_threshold_per_class[cls_idx]
-            print("iou_the =")
-            print(iou_th[class_mask].size())
-            print("max_iou_pred = ")
-            print(max_iou_preds.size())
+            print("for-------------------------------")
+            print(iou_th[class_mask])
             ###############################################################################
             #using to loss
             mask_iou = max_iou_preds.ge(iou_th[class_mask]*(iouwise_acc[max_iou_idx]/(2.-iouwise_acc[max_iou_idx]))).float()
