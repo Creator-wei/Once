@@ -33,6 +33,7 @@ def class_agnostic_nms(box_scores, box_preds, nms_config, classwise_acc=None, sc
         else:
             cls_threshold_per_class = score_thresh
             num_class = len(cls_threshold_per_class)
+            cls_th = box_scores.new_zeros(box_scores.shape)
             for cls_idx in range(num_class):
                 class_mask = (cls_idx+1)
                 cls_th[class_mask] = cls_threshold_per_class[cls_idx]
