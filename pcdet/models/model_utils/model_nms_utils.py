@@ -30,7 +30,7 @@ def class_agnostic_nms(box_scores, box_preds, nms_config, classwise_acc=None, sc
         if Using_Cls:
             scores_mask = (box_scores >= cls_th)
         else:
-            socres_mask = box_scores >= 0.1
+            socres_mask = box_scores >= cls_th
         box_scores = box_scores[scores_mask]
         #box_preds
         box_preds = box_preds[scores_mask]
