@@ -25,8 +25,6 @@ def class_agnostic_nms(box_scores, box_preds, nms_config, classwise_acc=None, sc
         print("11111111111111111111111")
         num_class = len(cls_threshold_per_class)
         for cls_idx in range(num_class):
-            print("cls_th ==")
-            print(cls_th[class_mask].size())
             class_mask = (cls_idx+1)
             cls_th[class_mask] = cls_threshold_per_class[cls_idx]
             #using to loss
