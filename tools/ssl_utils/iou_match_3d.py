@@ -37,7 +37,6 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc):
             print(iou_th[class_mask].size())
             print("++++++++++++++++++++++++++++++++++")
             print(iou_threshold_per_class[cls_idx])
-            print(iou_threshold_per_class[cls_idx].size())
             
             ###############################################################################
             #using to loss
