@@ -11,12 +11,12 @@ def class_agnostic_nms(box_scores, box_preds, nms_config, classwise_acc=None, sc
     mask_cls=None
     select_cls=None
     max_cls_idx=None
+    num_class = len(cls_threshold_per_class)
     if Using_Cls:
         box_scores = box_scores.squeeze(-1)
         max_cls_preds,max_cls_idx = torch.max(box_scores,-1)
         cls_threshold_per_class = score_thresh
         cls_th = box_scores.new_zeros(box_scores.shape)
-        num_class = len(cls_threshold_per_class)
         for cls_idx in range(num_class):
             class_mask = (cls_idx+1)
             cls_th[class_mask] = cls_threshold_per_class[cls_idx]
@@ -30,6 +30,9 @@ def class_agnostic_nms(box_scores, box_preds, nms_config, classwise_acc=None, sc
         if Using_Cls:
             scores_mask = (box_scores >= cls_th)
         else:
+            for cls_idx in range(num_class):
+                class_mask = (cls_idx+1)
+                cls_th[class_mask] = cls_threshold_per_class[cls_idx]
             socres_mask = box_scores >= cls_th
         box_scores = box_scores[scores_mask]
         #box_preds
