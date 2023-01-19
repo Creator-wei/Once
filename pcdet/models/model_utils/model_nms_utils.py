@@ -16,9 +16,15 @@ def class_agnostic_nms(box_scores, box_preds, nms_config, classwise_acc=None, sc
         box_scores = box_scores.squeeze(-1)
         max_cls_preds,max_cls_idx = torch.max(box_scores,-1)
         cls_threshold_per_class = score_thresh
+        print("Cls_threshold ==")
+        print(cls_threshold_per_class.size())
         cls_th = box_scores.new_zeros(box_scores.shape)
         num_class = len(cls_threshold_per_class)
         for cls_idx in range(num_class):
+            print("Cls_threshold2 ==")
+            print(cls_threshold_per_class.size())
+            print("cls_th ==")
+            print(cls_th[class_mask].size())
             class_mask = (cls_idx+1)
             cls_th[class_mask] = cls_threshold_per_class[cls_idx]
             #using to loss
