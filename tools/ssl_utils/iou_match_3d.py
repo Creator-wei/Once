@@ -18,6 +18,9 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc):
         if not batch_dict['cls_preds_normalized']:
             iou_preds = torch.sigmoid(iou_preds)
             cls_preds = torch.sigmoid(cls_preds)
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print(iou_preds.size())
+        print(cls_preds.size())
         iou_preds = iou_preds.squeeze(-1)
         ###############################################################################
         max_iou_preds,max_iou_idx = torch.max(iou_preds,-1)
@@ -26,17 +29,15 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc):
         iou_threshold_per_class = cfgs.IOU_SCORE_THRESH
         num_classes = len(iou_threshold_per_class)
         iou_th = iou_preds.new_zeros(iou_preds.shape)
-        print("----------------------")
-        print("iou_th")
-        print(iou_th.size())
+        print("---------------1--------------")
+        print("iou_preds--------------------")
+        print(iou_preds.size())
         for cls_idx in range(num_classes):
             class_mask = label_preds == (cls_idx + 1)
             iou_th[class_mask] = iou_threshold_per_class[cls_idx]
-            print("for-------------------------------")
+            print("----------------for----------------------")
             print(iou_th[class_mask])
             print(iou_th[class_mask].size())
-            print("++++++++++++++++++++++++++++++++++")
-            print(iou_threshold_per_class[cls_idx])
             
             ###############################################################################
             #using to loss
@@ -49,10 +50,10 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc):
         box_preds = box_preds[iou_mask]
         cls_preds = cls_preds[iou_mask]
         label_preds = label_preds[iou_mask]
-        print("----------------------")
-        print("iou_preds")
+        print("--------------2---------------")
+        print("iou_preds--------------------")
         print(iou_preds.size())
-        print("cls_preds")
+        print("cls_preds--------------------")
         print(cls_preds.size())
         nms_scores = cls_preds # iou_preds
         #Fillited by class_threshhold
