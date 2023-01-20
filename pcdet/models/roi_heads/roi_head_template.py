@@ -171,7 +171,7 @@ class RoIHeadTemplate(nn.Module):
                 raise NotImplementedError
             else:
                 selected, selected_scores = class_agnostic_nms(
-                    box_scores=cur_roi_scores, box_preds=box_preds, nms_config=nms_config, score_thresh=nms_config.CLS_SCORE_THRESH, Using_Cls=False
+                    box_scores=cur_roi_scores, box_preds=box_preds, nms_config=nms_config
                 )
 
             rois[index, :len(selected), :] = box_preds[selected]
