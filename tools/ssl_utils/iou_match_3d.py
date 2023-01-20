@@ -74,7 +74,11 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc):
         final_boxes = final_boxes[zero_mask]
         final_labels = final_labels[zero_mask]
         final_scores = final_scores[zero_mask]
-
+        print("-----------------------Final---------------------")
+        print(final_boxes.size())
+        print(final_labels.size())
+        print(final_scores.size())
+        print("-------------------------------------------------")
         record_dict = {
             'pred_boxes': final_boxes,
             'pred_scores': final_scores,

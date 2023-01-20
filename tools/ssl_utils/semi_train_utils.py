@@ -84,10 +84,10 @@ def train_ssl_one_epoch(teacher_model, student_model, optimizer, labeled_loader,
             ##################################################################################
         )
         ######################################################################################
-        if unlabeled_loader_iter[select_iou == 1].nelement() != 0:
-            selected_label_iou[unlabeled_loader_iter[select_iou == 1]] = max_iou_idx[select_iou == 1]  
+        if unlabeled_loader_iter[select_iou.byte() == 1].nelement() != 0:
+            selected_label_iou[unlabeled_loader_iter[select_iou.byte() == 1]] = max_iou_idx[select_iou == 1]  
         if unlabeled_loader_iter[select_cls == 1].nelement() != 0:
-            selected_label_cls[unlabeled_loader_iter[select_cls == 1]] = max_cls_idx[select_cls == 1]      
+            selected_label_cls[unlabeled_loader_iter[select_cls.byte() == 1]] = max_cls_idx[select_cls == 1]      
         ######################################################################################
         loss.backward()
 
