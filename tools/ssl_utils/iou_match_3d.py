@@ -21,9 +21,15 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc):
         print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         print(iou_preds.size())
         print(cls_preds.size())
+        print(iou_preds)
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         iou_preds = iou_preds.squeeze(-1)
         ###############################################################################
         max_iou_preds,max_iou_idx = torch.max(iou_preds,-1)
+        print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+        print(max_iou_preds)
+        print(max_iou_idx)
+        print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
         ###############################################################################
         # filtered by iou_threshold
         iou_threshold_per_class = cfgs.IOU_SCORE_THRESH
