@@ -181,7 +181,7 @@ class SemiSECONDIoU(Detector3DTemplate):
             else:
                 nms_scores = cls_preds # iou_preds
                 nms_scores = nms_scores.squeeze(-1)
-                selected, selected_scores, mask_cls, select_cls, max_cls_idx = class_agnostic_nms(
+                selected, selected_scores = class_agnostic_nms(
                     box_scores=nms_scores, box_preds=box_preds,
                     nms_config=post_process_cfg.NMS_CONFIG,
                     score_thresh=post_process_cfg.SCORE_THRESH

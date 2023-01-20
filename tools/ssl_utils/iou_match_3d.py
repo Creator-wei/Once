@@ -1,6 +1,6 @@
 import torch
 from .semi_utils import reverse_transform, load_data_to_gpu, construct_pseudo_label
-from pcdet.models.model_utils.model_nms_utils import class_agnostic_nms
+from pcdet.models.model_utils.model_nms_utils import class_agnostic_nms_class 
 
 @torch.no_grad()
 #######################################################################################
@@ -57,7 +57,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc):
         print(cls_preds.size())
         nms_scores = cls_preds # iou_preds
         #Fillited by class_threshhold
-        selected, selected_scores, mask_cls, select_cls,max_cls_idx= class_agnostic_nms(
+        selected, selected_scores, mask_cls, select_cls,max_cls_idx= class_agnostic_nms_class(
             box_scores=nms_scores, box_preds=box_preds,
             nms_config=cfgs.NMS_CONFIG,
             score_thresh=cfgs.CLS_SCORE_THRESH,

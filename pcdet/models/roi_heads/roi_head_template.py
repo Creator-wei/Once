@@ -170,7 +170,7 @@ class RoIHeadTemplate(nn.Module):
             if nms_config.MULTI_CLASSES_NMS:
                 raise NotImplementedError
             else:
-                selected, selected_scores,mask_cls,select_cls,max_cls_idx = class_agnostic_nms(
+                selected, selected_scores = class_agnostic_nms(
                     box_scores=cur_roi_scores, box_preds=box_preds, nms_config=nms_config, score_thresh=nms_config.CLS_SCORE_THRESH, Using_Cls=False
                 )
 
