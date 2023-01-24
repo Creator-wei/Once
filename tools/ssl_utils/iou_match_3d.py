@@ -26,11 +26,11 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc):
         print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         iou_preds = iou_preds.squeeze(-1)
         ###############################################################################
-        max_iou_preds,max_iou_idx = torch.max(iou_preds,-1)
-        print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-        print(max_iou_preds)
-        print(max_iou_idx)
-        print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+        #max_iou_preds,max_iou_idx = torch.max(iou_preds,-1)
+        #print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+        #print(max_iou_preds)
+        #print(max_iou_idx)
+        #print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
         ###############################################################################
         # filtered by iou_threshold
         iou_threshold_per_class = cfgs.IOU_SCORE_THRESH
@@ -47,6 +47,11 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc):
             print(cls_idx+1)
             print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
             iou_th[class_mask] = iou_threshold_per_class[cls_idx]
+            max_iou_preds,max_iou_idx = torch.max(iou_preds[class_mask],-1)
+            print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+            print(max_iou_preds)
+            print(max_iou_idx)
+            print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             print("----------------for----------------------")
             print(iou_th[class_mask])
             print(iou_th[class_mask].size())
