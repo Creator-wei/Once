@@ -92,8 +92,8 @@ def train_ssl_one_epoch(teacher_model, student_model, optimizer, labeled_loader,
             ud_teacher_batch_dict, ud_student_batch_dict,
             ssl_cfg, epoch_id, dist,
             ##################################################################################
-            classwise_acc=classwise_acc,
-            iouwise_acc=iouwise_acc
+            #classwise_acc=classwise_acc,
+            #iouwise_acc=iouwise_acc
             ##################################################################################
         )
         '''
