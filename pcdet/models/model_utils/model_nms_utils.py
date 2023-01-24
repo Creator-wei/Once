@@ -14,23 +14,19 @@ def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=No
     
     if Using_Cls:
         box_scores = box_scores.squeeze(-1)
-        max_cls_preds,max_cls_idx = torch.max(box_scores,-1)
+        #max_cls_preds,max_cls_idx = torch.max(box_scores,-1)
         cls_threshold_per_class = score_thresh
         #print("Cls_threshold ==")
         #print(cls_threshold_per_class.size())
         cls_th = box_scores.new_zeros(box_scores.shape)
-        print("11111111111111111111111")
-        print(box_scores.shape)
-        print(cls_th.size())
-        print("11111111111111111111111")
         num_class = len(cls_threshold_per_class)
         for cls_idx in range(num_class):
             class_mask = (cls_idx+1)
-            cls_th[class_mask] = cls_threshold_per_class[cls_idx]
+            cls_th[class_mask] = cls_threshold_per_class[cls_idx]*classwise_acc[cls_idx]
             #using to loss
-            mask_cls = max_cls_preds.ge(cls_th[class_mask]*(classwise_acc[max_cls_idx]/(2.-classwise_acc[max_cls_idx]))).float()
+            #mask_cls = max_cls_preds.ge(cls_th[class_mask]*(classwise_acc[max_cls_idx]/(2.-classwise_acc[max_cls_idx]))).float()
                 #using to update classwise_acc
-            select_cls = max_cls_preds.ge(cls_th[class_mask]).long()
+            #select_cls = max_cls_preds.ge(cls_th[class_mask]).long()
     ####################################################################################
 
     if score_thresh is not None:
@@ -42,7 +38,7 @@ def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=No
             cls_th = box_scores.new_zeros(box_scores.shape)
             for cls_idx in range(num_class):
                 class_mask = (cls_idx+1)
-                cls_th[class_mask] = cls_threshold_per_class[cls_idx]
+                cls_th[class_mask] = cls_threshold_per_class[cls_idx]*classwise_acc[cls_idx]
             scores_mask = box_scores >= cls_th
         box_scores = box_scores[scores_mask]
         #box_preds
@@ -60,7 +56,8 @@ def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=No
     if score_thresh is not None:
         original_idxs = scores_mask.nonzero().view(-1)
         selected = original_idxs[selected]
-    return selected, src_box_scores[selected], mask_cls, select_cls,max_cls_idx
+    #return selected, src_box_scores[selected], mask_cls, select_cls,max_cls_idx
+    return selected, src_box_scores[selected], scores_mask
 
 
 

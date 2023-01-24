@@ -25,16 +25,17 @@ def train_ssl_one_epoch(teacher_model, student_model, optimizer, labeled_loader,
     if rank == 0:
         pbar = tqdm.tqdm(total=total_it_each_epoch, leave=leave_pbar, desc='train', dynamic_ncols=True)
     #Each iteration
-
+    '''
     ##########################################################################################
     selected_label_iou = torch.ones((len(unlabeled_loader),), dtype=torch.long, ) * -1  # 先设置标签都为-1       --->2
     selected_label_iou = selected_label_iou.cuda()
     selected_label_cls = torch.ones((len(unlabeled_loader),), dtype=torch.long, ) * -1  # 先设置标签都为-1       --->2
     selected_label_cls = selected_label_cls.cuda()
 
-    classwise_acc = torch.zeros((len(ssl_cfg.CLASS_NAMES),)).cuda()
-    iouwise_acc = torch.zeros((len(ssl_cfg.CLASS_NAMES),)).cuda()
+    classwise_acc = torch.ones(len(ssl_cfg.CLASS_NAMES),dtype=torch.float32).cuda()
+    iouwise_acc = torch.ones(len(ssl_cfg.CLASS_NAMES),dtype=torch.float32).cuda()
     ##########################################################################################
+    '''
     #Training in each iteration
     for cur_it in range(total_it_each_epoch):
         try:
@@ -60,7 +61,7 @@ def train_ssl_one_epoch(teacher_model, student_model, optimizer, labeled_loader,
             tb_log.add_scalar('meta_data/learning_rate', cur_lr, accumulated_iter)
 
         optimizer.zero_grad()
-
+        '''
         ######################################################################################
         pseudo_counter_iou = Counter(selected_label_iou.tolist())
         if max(pseudo_counter_iou.values()) < len(ud_teacher_batch_dict):  # not all(5w) -1
@@ -72,7 +73,8 @@ def train_ssl_one_epoch(teacher_model, student_model, optimizer, labeled_loader,
             for i in range(len(ssl_cfg.CLASS_NAMES)):
                 iouwise_acc[i] = pseudo_counter_cls[i] / max(pseudo_counter_cls.values())  # 每个类别/max
         ######################################################################################
-
+        '''
+        '''
         loss, tb_dict, disp_dict, select_iou, select_cls, max_iou_idx, max_cls_idx = semi_learning_methods[ssl_cfg.NAME](
             teacher_model, student_model,
             ld_teacher_batch_dict, ld_student_batch_dict,
@@ -83,12 +85,25 @@ def train_ssl_one_epoch(teacher_model, student_model, optimizer, labeled_loader,
             iouwise_acc=iouwise_acc
             ##################################################################################
         )
+        '''
+        loss, tb_dict, disp_dict, iou_mask, scores_mask = semi_learning_methods[ssl_cfg.NAME](
+            teacher_model, student_model,
+            ld_teacher_batch_dict, ld_student_batch_dict,
+            ud_teacher_batch_dict, ud_student_batch_dict,
+            ssl_cfg, epoch_id, dist,
+            ##################################################################################
+            classwise_acc=classwise_acc,
+            iouwise_acc=iouwise_acc
+            ##################################################################################
+        )
+        '''
         ######################################################################################
         if unlabeled_loader_iter[select_iou.byte() == 1].nelement() != 0:
             selected_label_iou[unlabeled_loader_iter[select_iou.byte() == 1]] = max_iou_idx[select_iou == 1]  
         if unlabeled_loader_iter[select_cls == 1].nelement() != 0:
             selected_label_cls[unlabeled_loader_iter[select_cls.byte() == 1]] = max_cls_idx[select_cls == 1]      
         ######################################################################################
+        '''
         loss.backward()
 
         clip_grad_norm_(student_model.parameters(), ssl_cfg.STUDENT.GRAD_NORM_CLIP)
