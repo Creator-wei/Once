@@ -9,6 +9,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc):
     batch_size = batch_dict['batch_size']
     pred_dicts = []
     for index in range(batch_size):
+        #index is in different batch
         box_preds = batch_dict['rois'][index]
         iou_preds = batch_dict['roi_ious'][index]
         cls_preds = batch_dict['roi_scores'][index]
@@ -40,6 +41,11 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc):
         print(iou_preds.size())
         for cls_idx in range(num_classes):
             class_mask = label_preds == (cls_idx + 1)
+            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+            print(class_mask)
+            print(label_preds)
+            print(cls_idx+1)
+            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
             iou_th[class_mask] = iou_threshold_per_class[cls_idx]
             print("----------------for----------------------")
             print(iou_th[class_mask])
@@ -51,6 +57,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc):
             #using to update iouwise_acc
             select_iou = max_iou_preds.ge(iou_th[class_mask]).long()
             ###############################################################################
+        #先筛选可能的框
         iou_mask = iou_preds >= iou_th
         iou_preds = iou_preds[iou_mask]
         box_preds = box_preds[iou_mask]
@@ -61,6 +68,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc):
         print(iou_preds.size())
         print("cls_preds--------------------")
         print(cls_preds.size())
+        #再根据筛选出的框选出可能的目标
         nms_scores = cls_preds # iou_preds
         #Fillited by class_threshhold
         selected, selected_scores, mask_cls, select_cls,max_cls_idx= class_agnostic_nms_class(

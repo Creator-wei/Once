@@ -35,7 +35,7 @@ def train_ssl_one_epoch(teacher_model, student_model, optimizer, labeled_loader,
     classwise_acc = torch.zeros((len(ssl_cfg.CLASS_NAMES),)).cuda()
     iouwise_acc = torch.zeros((len(ssl_cfg.CLASS_NAMES),)).cuda()
     ##########################################################################################
-
+    #Training in each iteration
     for cur_it in range(total_it_each_epoch):
         try:
             ud_teacher_batch_dict, ud_student_batch_dict = next(unlabeled_loader_iter)
@@ -150,7 +150,7 @@ def train_ssl_model(teacher_model, student_model, student_optimizer, labeled_loa
         labeled_loader_iter = iter(labeled_loader)
         unlabeled_loader_iter = iter(unlabeled_loader)
 
-
+        ###Train each epoch
         for cur_epoch in tbar:
             if labeled_sampler is not None:
                 labeled_sampler.set_epoch(cur_epoch)
@@ -161,6 +161,7 @@ def train_ssl_model(teacher_model, student_model, student_optimizer, labeled_loa
                 cur_scheduler = lr_warmup_scheduler
             else:
                 cur_scheduler = lr_scheduler
+            #Training one epoch
             accumulated_iter = train_ssl_one_epoch(
                 teacher_model = teacher_model,
                 student_model = student_model,
