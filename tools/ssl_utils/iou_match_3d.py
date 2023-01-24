@@ -137,7 +137,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
 
     #return pred_dicts, select_iou, select_cls, mask_iou, mask_cls, max_iou_idx, max_cls_idx
     return pred_dicts, iou_mask, scores_mask
-    
+
 def iou_match_3d(teacher_model, student_model,
                   ld_teacher_batch_dict, ld_student_batch_dict,
                   ud_teacher_batch_dict, ud_student_batch_dict,
@@ -198,4 +198,4 @@ def iou_match_3d(teacher_model, student_model,
     loss = ld_ret_dict['loss'].mean() + ud_ret_dict['loss'].mean()
 
     #return loss, tb_dict, disp_dict, select_iou, select_cls, max_iou_idx.long(), max_cls_idx.long()
-    return loss, tb_dict, disp_dict, iou_mask, scores_mask
+    return loss, tb_dict, disp_dict

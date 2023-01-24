@@ -86,7 +86,19 @@ def train_ssl_one_epoch(teacher_model, student_model, optimizer, labeled_loader,
             ##################################################################################
         )
         '''
+        '''
         loss, tb_dict, disp_dict, iou_mask, scores_mask = semi_learning_methods[ssl_cfg.NAME](
+            teacher_model, student_model,
+            ld_teacher_batch_dict, ld_student_batch_dict,
+            ud_teacher_batch_dict, ud_student_batch_dict,
+            ssl_cfg, epoch_id, dist,
+            ##################################################################################
+            #classwise_acc=classwise_acc,
+            #iouwise_acc=iouwise_acc
+            ##################################################################################
+        )
+        '''
+        loss, tb_dict, disp_dict = semi_learning_methods[ssl_cfg.NAME](
             teacher_model, student_model,
             ld_teacher_batch_dict, ld_student_batch_dict,
             ud_teacher_batch_dict, ud_student_batch_dict,
