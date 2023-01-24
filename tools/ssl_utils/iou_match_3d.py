@@ -142,7 +142,7 @@ def iou_match_3d(teacher_model, student_model,
                   ld_teacher_batch_dict, ld_student_batch_dict,
                   ud_teacher_batch_dict, ud_student_batch_dict,
                   cfgs, epoch_id, dist,
-                  classwise_acc, iouwise_acc
+                  #classwise_acc, iouwise_acc
                  ):
     assert ld_teacher_batch_dict is None # Only generate labels for unlabeled data
 
