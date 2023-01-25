@@ -81,6 +81,13 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
             ###############################################################################
         #先筛选可能的框
         iou_mask = iou_preds >= iou_th
+        ###
+        print(iou_mask)
+        for cls_idx in range(num_classes):
+            cls_iou=  torch.eq(iou_mask,label_preds == (cls_idx + 1))
+            print("1111111111111111111111")
+            print(cls_iou)
+        ###
         iou_preds = iou_preds[iou_mask]
         box_preds = box_preds[iou_mask]
         cls_preds = cls_preds[iou_mask]
@@ -134,7 +141,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         pred_dicts.append(record_dict)
                 #index is in different batch
         ######################################################################################
-        pseudo_counter_iou = Counter(iou_mask.tolist())
+        pseudo_counter_iou = Counter(cls_iou.tolist())
 
         #if max(pseudo_counter_iou.values()) < len(batch_dict):  # not all(5w) -1
         for i in range(len(cfgs.CLASS_NAMES)):
