@@ -13,19 +13,6 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
     batch_size = batch_dict['batch_size']
     pred_dicts = []
     for index in range(batch_size):
-        #index is in different batch
-        ######################################################################################
-        pseudo_counter_iou = Counter(iou_mask.tolist())
-
-        #if max(pseudo_counter_iou.values()) < len(batch_dict):  # not all(5w) -1
-        for i in range(len(cfgs.CLASS_NAMES)):
-            classwise_acc[i] = pseudo_counter_iou[i] / max(pseudo_counter_iou.values())  # 每个类别/max
-                
-        pseudo_counter_cls = Counter(scores_mask.tolist())
-        #if max(pseudo_counter_cls.values()) < len(batch_dict):  # not all(5w) -1
-        for i in range(len(cfgs.CLASS_NAMES)):
-            iouwise_acc[i] = pseudo_counter_cls[i] / max(pseudo_counter_cls.values())  # 每个类别/max
-        ######################################################################################
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         print(pseudo_counter_iou)
         print(pseudo_counter_cls)
@@ -147,6 +134,20 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
             'pred_labels': final_labels,
         }
         pred_dicts.append(record_dict)
+                #index is in different batch
+        ######################################################################################
+        pseudo_counter_iou = Counter(iou_mask.tolist())
+
+        #if max(pseudo_counter_iou.values()) < len(batch_dict):  # not all(5w) -1
+        for i in range(len(cfgs.CLASS_NAMES)):
+            classwise_acc[i] = pseudo_counter_iou[i] / max(pseudo_counter_iou.values())  # 每个类别/max
+                
+        pseudo_counter_cls = Counter(scores_mask.tolist())
+        #if max(pseudo_counter_cls.values()) < len(batch_dict):  # not all(5w) -1
+        for i in range(len(cfgs.CLASS_NAMES)):
+            iouwise_acc[i] = pseudo_counter_cls[i] / max(pseudo_counter_cls.values())  # 每个类别/max
+        ######################################################################################
+
 
     #return pred_dicts, select_iou, select_cls, mask_iou, mask_cls, max_iou_idx, max_cls_idx
     return pred_dicts, iou_mask, scores_mask
