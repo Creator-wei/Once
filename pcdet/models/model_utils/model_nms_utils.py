@@ -23,6 +23,8 @@ def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=No
         for cls_idx in range(num_class):
             class_mask = (cls_idx+1)
             cls_th[class_mask] = cls_threshold_per_class[cls_idx]*classwise_acc[cls_idx]
+            print("-----------Threshold_hold_cls--------------")
+            print(cls_th[class_mask])
             #using to loss
             #mask_cls = max_cls_preds.ge(cls_th[class_mask]*(classwise_acc[max_cls_idx]/(2.-classwise_acc[max_cls_idx]))).float()
                 #using to update classwise_acc

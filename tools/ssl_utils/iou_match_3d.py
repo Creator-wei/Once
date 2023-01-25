@@ -35,11 +35,13 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         if not batch_dict['cls_preds_normalized']:
             iou_preds = torch.sigmoid(iou_preds)
             cls_preds = torch.sigmoid(cls_preds)
+        '''
         print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         print(iou_preds.size())
         print(cls_preds.size())
         print(iou_preds)
         print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        '''
         iou_preds = iou_preds.squeeze(-1)
         ###############################################################################
         #max_iou_preds,max_iou_idx = torch.max(iou_preds,-1)
@@ -52,16 +54,20 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         iou_threshold_per_class = cfgs.IOU_SCORE_THRESH
         num_classes = len(iou_threshold_per_class)
         iou_th = iou_preds.new_zeros(iou_preds.shape)
+        '''
         print("---------------1--------------")
         print("iou_preds--------------------")
         print(iou_preds.size())
+        '''
         for cls_idx in range(num_classes):
             class_mask = label_preds == (cls_idx + 1)
+            '''
             print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
             print(class_mask)
             print(label_preds)
             print(cls_idx+1)
             print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+            '''
             iou_th[class_mask] = iou_threshold_per_class[cls_idx]*iouwise_acc[cls_idx]
             '''
             max_iou_preds,max_iou_idx = torch.max(iou_preds[class_mask],-1)
@@ -73,6 +79,8 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
             print(iou_th[class_mask])
             print(iou_th[class_mask].size())
             '''
+            print("-----------Threshold_hold_iou--------------")
+            print(iou_mask[class_mask])
             
             ###############################################################################
             #using to loss
@@ -89,11 +97,13 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         box_preds = box_preds[iou_mask]
         cls_preds = cls_preds[iou_mask]
         label_preds = label_preds[iou_mask]
+        '''
         print("--------------2---------------")
         print("iou_preds--------------------")
         print(iou_preds.size())
         print("cls_preds--------------------")
         print(cls_preds.size())
+        '''
         #再根据筛选出的框选出可能的目标
         nms_scores = cls_preds # iou_preds
         #Fillited by class_threshhold
