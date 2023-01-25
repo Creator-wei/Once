@@ -56,7 +56,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
             print(cls_idx+1)
             print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
             '''
-            iou_th[class_mask] = iou_threshold_per_class[cls_idx]*iouwise_acc[class_mask]
+            iou_th[class_mask] = iou_threshold_per_class[cls_idx]*iouwise_acc[cls_idx]
             '''
             max_iou_preds,max_iou_idx = torch.max(iou_preds[class_mask],-1)
             print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
