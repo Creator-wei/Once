@@ -17,14 +17,14 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         ######################################################################################
         pseudo_counter_iou = Counter(iouwise_acc.tolist())
 
-        if max(pseudo_counter_iou.values()) < len(batch_dict):  # not all(5w) -1
-            for i in range(len(cfgs.CLASS_NAMES)):
-                classwise_acc[i] = pseudo_counter_iou[i] / max(pseudo_counter_iou.values())  # 每个类别/max
+        #if max(pseudo_counter_iou.values()) < len(batch_dict):  # not all(5w) -1
+        for i in range(len(cfgs.CLASS_NAMES)):
+            classwise_acc[i] = pseudo_counter_iou[i] / max(pseudo_counter_iou.values())  # 每个类别/max
                 
         pseudo_counter_cls = Counter(classwise_acc.tolist())
-        if max(pseudo_counter_cls.values()) < len(batch_dict):  # not all(5w) -1
-            for i in range(len(cfgs.CLASS_NAMES)):
-                iouwise_acc[i] = pseudo_counter_cls[i] / max(pseudo_counter_cls.values())  # 每个类别/max
+        #if max(pseudo_counter_cls.values()) < len(batch_dict):  # not all(5w) -1
+        for i in range(len(cfgs.CLASS_NAMES)):
+            iouwise_acc[i] = pseudo_counter_cls[i] / max(pseudo_counter_cls.values())  # 每个类别/max
         ######################################################################################
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         print(pseudo_counter_iou)
