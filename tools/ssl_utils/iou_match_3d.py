@@ -80,7 +80,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
             print(iou_th[class_mask].size())
             '''
             print("-----------Threshold_hold_iou--------------")
-            print(iou_mask[class_mask])
+            print(iou_th[class_mask])
             
             ###############################################################################
             #using to loss
