@@ -86,9 +86,9 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         print(iou_preds[iou_mask])
         #for cls_idx in range(num_classes):
             #cls_iou=  torch.eq(iou_mask,label_preds == (cls_idx + 1))
-        selected_label_iou[iou_preds[iou_mask]] = iou_mask
+        #selected_label_iou[iou_preds[iou_mask]] = iou_mask
         print("1111111111111111111111")
-        print(selected_label_iou)
+        #print(selected_label_iou)
         ###
         iou_preds = iou_preds[iou_mask]
         box_preds = box_preds[iou_mask]
