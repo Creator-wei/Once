@@ -13,9 +13,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
     batch_size = batch_dict['batch_size']
     pred_dicts = []
     for index in range(batch_size):
-        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        print(pseudo_counter_iou)
-        print(pseudo_counter_cls)
+
         box_preds = batch_dict['rois'][index]
         iou_preds = batch_dict['roi_ious'][index]
         cls_preds = batch_dict['roi_scores'][index]
@@ -146,6 +144,12 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         #if max(pseudo_counter_cls.values()) < len(batch_dict):  # not all(5w) -1
         for i in range(len(cfgs.CLASS_NAMES)):
             iouwise_acc[i] = pseudo_counter_cls[i] / max(pseudo_counter_cls.values())  # 每个类别/max
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        print(pseudo_counter_iou)
+        print(pseudo_counter_cls)
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        print(classwise_acc)
+        print(iouwise_acc)
         ######################################################################################
 
 
