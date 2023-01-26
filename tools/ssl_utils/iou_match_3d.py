@@ -12,7 +12,10 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
 #######################################################################################
     batch_size = batch_dict['batch_size']
     pred_dicts = []
+    selected_iou = Counter()
+    #selected_cls = Counter()
     for index in range(batch_size):
+
 
         box_preds = batch_dict['rois'][index]
         iou_preds = batch_dict['roi_ious'][index]
@@ -84,13 +87,13 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         ###
         for label, flag in zip(label_preds,iou_mask):
             if flag:
-                selected_label_iou[label] += 1
+                selected_iou[label] += 1
         print("222222222222222222222222222")
         print(iou_mask.size())
         print(iou_preds.size())
         print(label_preds.size())
-        print(len(selected_label_iou))
-        print(dict(selected_label_iou))
+        print(len(selected_iou))
+        print(dict(selected_iou))
         print("222222222222222222222222222")
         #for cls_idx in range(num_classes):
             #cls_iou=  torch.eq(iou_mask,label_preds == (cls_idx + 1))
@@ -155,15 +158,15 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
 
         #if max(pseudo_counter_iou.values()) < len(batch_dict):  # not all(5w) -1
         for i in range(len(cfgs.CLASS_NAMES)):
-            classwise_acc[i] = selected_label_iou[i] / max(selected_label_iou.values())  # 每个类别/max
+            classwise_acc[i] = selected_iou[i] / max(selected_iou.values())  # 每个类别/max
                 
         #pseudo_counter_cls = Counter(scores_mask.tolist())
         #if max(pseudo_counter_cls.values()) < len(batch_dict):  # not all(5w) -1
         for i in range(len(cfgs.CLASS_NAMES)):
-            iouwise_acc[i] = selected_label_iou[i] / max(selected_label_iou.values())  # 每个类别/max
+            iouwise_acc[i] = selected_iou[i] / max(selected_iou.values())  # 每个类别/max
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        print(selected_label_iou)
-        print(selected_label_iou)
+        print(selected_iou)
+        print(selected_iou)
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         print(classwise_acc)
         print(iouwise_acc)
