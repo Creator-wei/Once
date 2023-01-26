@@ -3,7 +3,7 @@ import torch
 from ...ops.iou3d_nms import iou3d_nms_utils
 
 
-def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=None, score_thresh=None, Using_Cls=False,selected_label_cls=None,label= None ):
+def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=None, score_thresh=None, Using_Cls=False,selected_label_cls=None,label_preds= None ):
     #Class_Preds
     src_box_scores = box_scores
 
@@ -21,7 +21,7 @@ def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=No
         cls_th = box_scores.new_zeros(box_scores.shape)
         num_class = len(cls_threshold_per_class)
         for cls_idx in range(num_class):
-            class_mask = label = (cls_idx+1)
+            class_mask = label_preds = (cls_idx+1)
             cls_th[class_mask] = cls_threshold_per_class[cls_idx]*classwise_acc[cls_idx]
             print("-----------Threshold_hold_cls--------------")
             print(class_mask)
