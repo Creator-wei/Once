@@ -85,13 +85,14 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         #先筛选可能的框
         iou_mask = iou_preds >= iou_th
         ###
-        for label, flag in zip(label_preds,iou_mask):
+        for label, flag in zip(label_preds.tolist(),iou_mask.tolist()):
             if flag:
                 selected_iou[label] += 1
         print("222222222222222222222222222")
-        print(iou_mask.size())
-        print(iou_preds.size())
-        print(label_preds.size())
+        print(iou_mask)
+        print(iou_preds)
+        print(iou_th)
+        print(label_preds)
         print(len(selected_iou))
         print(dict(selected_iou))
         print("222222222222222222222222222")
