@@ -90,13 +90,14 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         box_preds = box_preds[iou_mask]
         cls_preds = cls_preds[iou_mask]
         label_preds = label_preds[iou_mask]
-        '''
+        
         print("--------------2---------------")
         print("iou_preds--------------------")
-        print(iou_preds.size())
+        print(iou_preds)
         print("cls_preds--------------------")
-        print(cls_preds.size())
-        '''
+        print(cls_preds)
+        print("label_preds--------------------")
+        print(label_preds)
         #再根据筛选出的框选出可能的目标
         nms_scores = cls_preds # iou_preds
         #Fillited by class_threshhold
