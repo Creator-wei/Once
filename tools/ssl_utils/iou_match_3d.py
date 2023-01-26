@@ -82,8 +82,12 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         #先筛选可能的框
         iou_mask = iou_preds >= iou_th
         ###
+        print("222222222222222222222222222")
         print(iou_mask)
-        print(iou_preds[iou_mask])
+        print(iou_preds)
+        print(label_preds)
+        print(cls_preds)
+        print("222222222222222222222222222")
         #for cls_idx in range(num_classes):
             #cls_iou=  torch.eq(iou_mask,label_preds == (cls_idx + 1))
         #selected_label_iou[iou_preds[iou_mask]] = iou_mask
