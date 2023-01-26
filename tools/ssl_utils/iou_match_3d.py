@@ -12,8 +12,6 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
 #######################################################################################
     batch_size = batch_dict['batch_size']
     pred_dicts = []
-    selected_iou = Counter()
-    #selected_cls = Counter()
     for index in range(batch_size):
 
 
@@ -26,13 +24,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         if not batch_dict['cls_preds_normalized']:
             iou_preds = torch.sigmoid(iou_preds)
             cls_preds = torch.sigmoid(cls_preds)
-        '''
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print(iou_preds.size())
-        print(cls_preds.size())
-        print(iou_preds)
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        '''
+
         iou_preds = iou_preds.squeeze(-1)
         ###############################################################################
         #max_iou_preds,max_iou_idx = torch.max(iou_preds,-1)
@@ -71,7 +63,9 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
             print(iou_th[class_mask].size())
             '''
             print("-----------Threshold_hold_iou--------------")
+            print(class_mask)
             print(iou_th[class_mask])
+            print("------------------END----------------------")
             
             ###############################################################################
             #using to loss
@@ -87,21 +81,11 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         ###
         for label, flag in zip(label_preds.tolist(),iou_mask.tolist()):
             if flag:
-                selected_iou[label] += 1
-        print("222222222222222222222222222")
-        print(iou_mask)
-        print(iou_preds)
-        print(iou_th)
-        print(label_preds)
-        print(len(selected_iou))
-        print(dict(selected_iou))
-        print("222222222222222222222222222")
-        #for cls_idx in range(num_classes):
-            #cls_iou=  torch.eq(iou_mask,label_preds == (cls_idx + 1))
-        #selected_label_iou[iou_preds[iou_mask]] = iou_mask
-        print("1111111111111111111111")
-        #print(selected_label_iou)
-        ###
+                selected_label_iou[label] += 1
+        #selected_label_iou = dict(selected_label_iou)
+        print("--------------selected_label_iou--------------")
+        print(selected_label_iou)
+        print("----------------------------------------------")
         iou_preds = iou_preds[iou_mask]
         box_preds = box_preds[iou_mask]
         cls_preds = cls_preds[iou_mask]
@@ -125,12 +109,13 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
             Using_Cls=True
         )
         '''
-        selected, selected_scores, scores_mask= class_agnostic_nms_class(
+        selected, selected_scores, scores_mask, selected_label_cls= class_agnostic_nms_class(
             box_scores=nms_scores, box_preds=box_preds,
             nms_config=cfgs.NMS_CONFIG,
             score_thresh=cfgs.CLS_SCORE_THRESH,
             classwise_acc=classwise_acc,
-            Using_Cls=True
+            Using_Cls=True,
+            selected_label_cls=selected_label_cls
         )
 
         final_scores = selected_scores
@@ -159,15 +144,15 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
 
         #if max(pseudo_counter_iou.values()) < len(batch_dict):  # not all(5w) -1
         for i in range(len(cfgs.CLASS_NAMES)):
-            classwise_acc[i] = selected_iou[i] / max(selected_iou.values())  # 每个类别/max
+            classwise_acc[i] = selected_label_cls[i+1] / max(selected_label_cls.values())  # 每个类别/max
                 
         #pseudo_counter_cls = Counter(scores_mask.tolist())
         #if max(pseudo_counter_cls.values()) < len(batch_dict):  # not all(5w) -1
         for i in range(len(cfgs.CLASS_NAMES)):
-            iouwise_acc[i] = selected_iou[i] / max(selected_iou.values())  # 每个类别/max
+            iouwise_acc[i] = selected_label_iou[i+1] / max(selected_label_iou.values())  # 每个类别/max
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        print(selected_iou)
-        print(selected_iou)
+        print(selected_label_cls)
+        print(selected_label_iou)
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         print(classwise_acc)
         print(iouwise_acc)

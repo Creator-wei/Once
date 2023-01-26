@@ -3,7 +3,7 @@ import torch
 from ...ops.iou3d_nms import iou3d_nms_utils
 
 
-def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=None, score_thresh=None, Using_Cls=False ):
+def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=None, score_thresh=None, Using_Cls=False,selected_label_cls=None ):
     #Class_Preds
     src_box_scores = box_scores
 
@@ -25,26 +25,21 @@ def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=No
             class_mask = (cls_idx+1)
             cls_th[class_mask] = cls_threshold_per_class[cls_idx]*classwise_acc[cls_idx]
             print("-----------Threshold_hold_cls--------------")
+            print(class_mask)
             print(cls_th[class_mask])
-            #using to loss
-            #mask_cls = max_cls_preds.ge(cls_th[class_mask]*(classwise_acc[max_cls_idx]/(2.-classwise_acc[max_cls_idx]))).float()
-                #using to update classwise_acc
-            #select_cls = max_cls_preds.ge(cls_th[class_mask]).long()
-    ####################################################################################
-
+            print("------------------END----------------------")
+           
     if score_thresh is not None:
         if Using_Cls:
-            scores_mask = (box_scores >= cls_th)
-        else:
-            cls_threshold_per_class = score_thresh
-            num_class = len(cls_threshold_per_class)
-            cls_th = box_scores.new_zeros(box_scores.shape)
-            for cls_idx in range(num_class):
-                class_mask = (cls_idx+1)
-                cls_th[class_mask] = cls_threshold_per_class[cls_idx]*classwise_acc[cls_idx]
-                print("-----------Threshold_hold_cls22222--------------")
-                print(cls_th[class_mask])
             scores_mask = box_scores >= cls_th
+            for label, flag in zip(box_scores.tolist(),scores_mask.tolist()):
+                if flag:
+                    selected_label_cls[label] += 1
+            #selected_label_iou = dict(selected_label_iou)
+            print("--------------selected_label_cls--------------")
+            print(selected_label_cls)
+            print("----------------------------------------------")
+
         box_scores = box_scores[scores_mask]
         #box_preds
         box_preds = box_preds[scores_mask]
@@ -62,7 +57,7 @@ def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=No
         original_idxs = scores_mask.nonzero().view(-1)
         selected = original_idxs[selected]
     #return selected, src_box_scores[selected], mask_cls, select_cls,max_cls_idx
-    return selected, src_box_scores[selected], scores_mask
+    return selected, src_box_scores[selected], scores_mask, selected_label_cls
 
 
 
