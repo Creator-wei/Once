@@ -115,7 +115,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
             score_thresh=cfgs.CLS_SCORE_THRESH,
             classwise_acc=classwise_acc,
             Using_Cls=True,
-            selected_label_cls=selected_label_cls
+            selected_label_cls=selected_label_cls,
             label_preds = label_preds
         )
 
