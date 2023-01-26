@@ -82,13 +82,14 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         #先筛选可能的框
         iou_mask = iou_preds >= iou_th
         ###
+        for label, flag in zip(label_preds,iou_mask):
+            if flag:
+                selected_label_iou[label] += 1
         print("222222222222222222222222222")
         print(iou_mask)
         print(iou_preds)
         print(label_preds)
-        print(cls_preds)
-        cls_iou = dict(zip(label_preds,iou_mask))
-        print(cls_iou)
+        print(selected_label_iou)
         print("222222222222222222222222222")
         #for cls_idx in range(num_classes):
             #cls_iou=  torch.eq(iou_mask,label_preds == (cls_idx + 1))
@@ -149,19 +150,19 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         pred_dicts.append(record_dict)
                 #index is in different batch
         ######################################################################################
-        pseudo_counter_iou = Counter(selected_label_iou.tolist())
+        #pseudo_counter_iou = Counter(selected_label_iou.tolist())
 
         #if max(pseudo_counter_iou.values()) < len(batch_dict):  # not all(5w) -1
         for i in range(len(cfgs.CLASS_NAMES)):
-            classwise_acc[i] = pseudo_counter_iou[i] / max(pseudo_counter_iou.values())  # 每个类别/max
+            classwise_acc[i] = selected_label_iou[i] / max(selected_label_iou.values())  # 每个类别/max
                 
-        pseudo_counter_cls = Counter(scores_mask.tolist())
+        #pseudo_counter_cls = Counter(scores_mask.tolist())
         #if max(pseudo_counter_cls.values()) < len(batch_dict):  # not all(5w) -1
         for i in range(len(cfgs.CLASS_NAMES)):
-            iouwise_acc[i] = pseudo_counter_cls[i] / max(pseudo_counter_cls.values())  # 每个类别/max
+            iouwise_acc[i] = selected_label_iou[i] / max(selected_label_iou.values())  # 每个类别/max
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        print(pseudo_counter_iou)
-        print(pseudo_counter_cls)
+        print(selected_label_iou)
+        print(selected_label_iou)
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         print(classwise_acc)
         print(iouwise_acc)
@@ -189,6 +190,8 @@ def iou_match_3d(teacher_model, student_model,
     selected_label_iou = selected_label_iou.cuda()
     selected_label_cls = torch.ones((len(ud_teacher_batch_dict),), dtype=torch.long, ) * -1  # 先设置标签都为-1       --->2
     selected_label_cls = selected_label_cls.cuda()
+    selected_label_cls = Counter()
+    selected_label_iou = Counter()
 
     classwise_acc = torch.zeros(len(cfgs.CLASS_NAMES),dtype=torch.float32).cuda()
     classwise_acc = classwise_acc * 0.1
