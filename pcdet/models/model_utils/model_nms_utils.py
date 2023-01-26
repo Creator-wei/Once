@@ -38,7 +38,7 @@ def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=No
     if score_thresh is not None:
         if Using_Cls:
             scores_mask = box_scores >= cls_th
-            for label, flag in zip(box_scores.tolist(),scores_mask.tolist()):
+            for label, flag in zip(label_preds.tolist(),scores_mask.tolist()):
                 if flag:
                     selected_label_cls[label] += 1
             #selected_label_iou = dict(selected_label_iou)
