@@ -86,10 +86,11 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
             if flag:
                 selected_label_iou[label] += 1
         print("222222222222222222222222222")
-        print(iou_mask)
-        print(iou_preds)
-        print(label_preds)
-        print(selected_label_iou)
+        print(iou_mask.size())
+        print(iou_preds.size())
+        print(label_preds.size())
+        print(selected_label_iou.size())
+        print(selected_label_iou.dict())
         print("222222222222222222222222222")
         #for cls_idx in range(num_classes):
             #cls_iou=  torch.eq(iou_mask,label_preds == (cls_idx + 1))
