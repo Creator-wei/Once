@@ -183,9 +183,9 @@ def iou_match_3d(teacher_model, student_model,
     selected_label_cls = Counter()
     selected_label_iou = Counter()
 
-    classwise_acc = torch.zeros(len(cfgs.CLASS_NAMES),dtype=torch.float32).cuda()
+    classwise_acc = torch.ones(len(cfgs.CLASS_NAMES),dtype=torch.float32).cuda()
     classwise_acc = classwise_acc * 0.1
-    iouwise_acc = torch.zeros(len(cfgs.CLASS_NAMES),dtype=torch.float32).cuda()
+    iouwise_acc = torch.ones(len(cfgs.CLASS_NAMES),dtype=torch.float32).cuda()
     iouwise_acc = iouwise_acc * 0.1
     #Dist == False
     if not dist:
