@@ -186,10 +186,10 @@ def iou_match_3d(teacher_model, student_model,
     load_data_to_gpu(ud_student_batch_dict)
     load_data_to_gpu(ud_teacher_batch_dict)
     ###############################################################################
-    selected_label_iou = torch.ones((len(ud_teacher_batch_dict),), dtype=torch.long, ) * -1  # 先设置标签都为-1       --->2
-    selected_label_iou = selected_label_iou.cuda()
-    selected_label_cls = torch.ones((len(ud_teacher_batch_dict),), dtype=torch.long, ) * -1  # 先设置标签都为-1       --->2
-    selected_label_cls = selected_label_cls.cuda()
+    #selected_label_iou = torch.ones((len(ud_teacher_batch_dict),), dtype=torch.long, ) * -1  # 先设置标签都为-1       --->2
+    #selected_label_iou = selected_label_iou.cuda()
+    #selected_label_cls = torch.ones((len(ud_teacher_batch_dict),), dtype=torch.long, ) * -1  # 先设置标签都为-1       --->2
+    #selected_label_cls = selected_label_cls.cuda()
     selected_label_cls = Counter()
     selected_label_iou = Counter()
 
