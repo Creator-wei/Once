@@ -35,7 +35,7 @@ DATA_CONFIG:
 OPTIMIZATION:
     PRETRAIN:
         BATCH_SIZE_PER_GPU: 4
-        NUM_EPOCHS: 1
+        NUM_EPOCHS: 10
         OPTIMIZER: adam_onecycle
         LR: 0.003
         WEIGHT_DECAY: 0.01
@@ -61,9 +61,9 @@ OPTIMIZATION:
         TEACHER:
             NUM_ITERS_PER_UPDATE: -1
             ######################################################################
-            CLS_SCORE_THRESH: [0.9, 0.9, 0.9, 0.9, 0.9]
+            CLS_SCORE_THRESH: [0.5, 0.5, 0.5, 0.5, 0.5]
             ######################################################################
-            IOU_SCORE_THRESH: [0.9, 0.9, 0.9, 0.9, 0.9]
+            IOU_SCORE_THRESH: [0.5, 0.5, 0.5, 0.5, 0.5]
             ##########################################################################
             CLASS_NAMES: ['Car', 'Bus', 'Truck', 'Pedestrian', 'Cyclist']
             ##########################################################################
@@ -208,14 +208,14 @@ MODEL:
 
         NMS_CONFIG:
             TRAIN:
-                CLS_SCORE_THRESH: [0.9, 0.9, 0.9, 0.9, 0.9]
+                CLS_SCORE_THRESH: [0.5, 0.5, 0.5, 0.5, 0.5]
                 NMS_TYPE: nms_gpu
                 MULTI_CLASSES_NMS: False
                 NMS_PRE_MAXSIZE: 9000
                 NMS_POST_MAXSIZE: 512
                 NMS_THRESH: 0.8
             TEST:
-                CLS_SCORE_THRESH: [0.9, 0.9, 0.9, 0.9, 0.9]
+                CLS_SCORE_THRESH: [0.5, 0.5, 0.5, 0.5, 0.5]
                 NMS_TYPE: nms_gpu
                 MULTI_CLASSES_NMS: False
                 NMS_PRE_MAXSIZE: 4096
