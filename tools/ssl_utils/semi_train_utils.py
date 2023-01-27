@@ -36,9 +36,9 @@ def train_ssl_one_epoch(teacher_model, student_model, optimizer, labeled_loader,
     iouwise_acc = torch.ones(len(ssl_cfg.CLASS_NAMES),dtype=torch.float32).cuda()
     ##########################################################################################
     '''
-    classwise_acc = torch.ones(len(cfgs.CLASS_NAMES),dtype=torch.float32).cuda()
+    classwise_acc = torch.ones(len(ssl_cfg.CLASS_NAMES),dtype=torch.float32).cuda()
     classwise_acc = classwise_acc * 0.1
-    iouwise_acc = torch.ones(len(cfgs.CLASS_NAMES),dtype=torch.float32).cuda()
+    iouwise_acc = torch.ones(len(ssl_cfg.CLASS_NAMES),dtype=torch.float32).cuda()
     iouwise_acc = iouwise_acc * 0.1
     #Training in each iteration
     for cur_it in range(total_it_each_epoch):
