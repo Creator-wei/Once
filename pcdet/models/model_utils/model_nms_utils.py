@@ -25,9 +25,15 @@ def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=No
             print(label_preds)
             print("------------------END----------------------")
             class_mask = label_preds == (cls_idx+1)
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            print(class_mask)
+            print(classwise_acc[cls_idx])
+            print(cls_threshold_per_class[cls_idx])
             if torch.all(class_mask == False):
+                cls_th[class_mask] = cls_threshold_per_class[cls_idx]
                 break
-            cls_th[class_mask] = cls_threshold_per_class[cls_idx]*classwise_acc[cls_idx]
+            else:
+                cls_th[class_mask] = cls_threshold_per_class[cls_idx]*classwise_acc[cls_idx]
             print("###########################################")
             print(cls_threshold_per_class[cls_idx])
             print(classwise_acc[cls_idx])
