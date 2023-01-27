@@ -51,6 +51,8 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
             print(cls_idx+1)
             print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
             '''
+            if torch.all(class_mask == False):
+                break
             iou_th[class_mask] = iou_threshold_per_class[cls_idx]*iouwise_acc[cls_idx]
             '''
             max_iou_preds,max_iou_idx = torch.max(iou_preds[class_mask],-1)
@@ -146,12 +148,12 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
 
         #if max(pseudo_counter_iou.values()) < len(batch_dict):  # not all(5w) -1
         for i in range(len(cfgs.CLASS_NAMES)):
-            classwise_acc[i] = selected_label_cls[i+1] / sum(selected_label_cls.values())  # 每个类别/max
+            classwise_acc[i] = selected_label_cls[i+1] / max(selected_label_cls.values())  # 每个类别/max
                 
         #pseudo_counter_cls = Counter(scores_mask.tolist())
         #if max(pseudo_counter_cls.values()) < len(batch_dict):  # not all(5w) -1
         for i in range(len(cfgs.CLASS_NAMES)):
-            iouwise_acc[i] = selected_label_iou[i+1] / sum(selected_label_iou.values())  # 每个类别/max
+            iouwise_acc[i] = selected_label_iou[i+1] / max(selected_label_iou.values())  # 每个类别/max
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         print(selected_label_cls)
         print(selected_label_iou)
