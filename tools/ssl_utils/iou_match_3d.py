@@ -153,7 +153,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~ACC~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
     #return pred_dicts, select_iou, select_cls, mask_iou, mask_cls, max_iou_idx, max_cls_idx
-    return pred_dicts, iou_mask, scores_mask
+    return pred_dicts, iou_mask, scores_mask,selected_label_cls, selected_label_iou
 
 def iou_match_3d(teacher_model, student_model,
                   ld_teacher_batch_dict, ld_student_batch_dict,
@@ -205,12 +205,12 @@ def iou_match_3d(teacher_model, student_model,
         _, ud_teacher_batch_dict = teacher_model(ld_teacher_batch_dict, ud_teacher_batch_dict)
     #################################################################################################################
     #teacher_boxes, select_iou, select_cls, mask_iou, mask_cls, max_iou_idx, max_cls_idx= iou_match_3d_filter(ud_teacher_batch_dict, cfgs.TEACHER,classwise_acc=classwise_acc, iouwise_acc=iouwise_acc)
-    teacher_boxes, iou_mask, scores_mask= iou_match_3d_filter(ud_teacher_batch_dict, \
-                                                              cfgs.TEACHER,\
-                                                              classwise_acc=classwise_acc, \
-                                                              iouwise_acc=iouwise_acc,\
-                                                              selected_label_iou=selected_label_iou,\
-                                                              selected_label_cls=selected_label_cls,)
+    teacher_boxes, iou_mask, scores_mask,selected_label_cls, selected_label_iou= iou_match_3d_filter(ud_teacher_batch_dict, \
+                                                                                                        cfgs.TEACHER,\
+                                                                                                        classwise_acc=classwise_acc, \
+                                                                                                        iouwise_acc=iouwise_acc,\
+                                                                                                        selected_label_iou=selected_label_iou,\
+                                                                                                        selected_label_cls=selected_label_cls,)
     #################################################################################################################
     #using reverse_transform to transform weak augment to strong augment for match the Stduent model
     teacher_boxes = reverse_transform(teacher_boxes, ud_teacher_batch_dict, ud_student_batch_dict)

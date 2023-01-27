@@ -100,7 +100,7 @@ def train_ssl_one_epoch(teacher_model, student_model, optimizer, labeled_loader,
             ##################################################################################
         )
         '''
-        loss, tb_dict, disp_dict = semi_learning_methods[ssl_cfg.NAME](
+        loss, tb_dict, disp_dict,selected_label_cls, selected_label_iou = semi_learning_methods[ssl_cfg.NAME](
             teacher_model, student_model,
             ld_teacher_batch_dict, ld_student_batch_dict,
             ud_teacher_batch_dict, ud_student_batch_dict,
