@@ -147,6 +147,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         ######################################################################################
         #pseudo_counter_iou = Counter(selected_label_iou.tolist())
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~ACC~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        print(index)
         print(classwise_acc)
         print(iouwise_acc)
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~ACC~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -174,7 +175,7 @@ def iou_match_3d(teacher_model, student_model,
                   ld_teacher_batch_dict, ld_student_batch_dict,
                   ud_teacher_batch_dict, ud_student_batch_dict,
                   cfgs, epoch_id, dist,
-                  classwise_acc, iouwise_acc
+                  #classwise_acc, iouwise_acc
                  ):
     assert ld_teacher_batch_dict is None # Only generate labels for unlabeled data
 
@@ -191,7 +192,10 @@ def iou_match_3d(teacher_model, student_model,
     selected_label_cls = Counter()
     selected_label_iou = Counter()
 
-
+    classwise_acc = torch.ones(len(cfgs.CLASS_NAMES),dtype=torch.float32).cuda()
+    classwise_acc = classwise_acc * 0.1
+    iouwise_acc = torch.ones(len(cfgs.CLASS_NAMES),dtype=torch.float32).cuda()
+    iouwise_acc = iouwise_acc * 0.1
     #Dist == False
     if not dist:
         #############################################################################################################
