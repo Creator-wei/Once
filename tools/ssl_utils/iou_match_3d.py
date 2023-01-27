@@ -86,6 +86,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
                 selected_label_iou[label] += 1
         #selected_label_iou = dict(selected_label_iou)
         print("--------------selected_label_iou--------------")
+        print(iou_mask)
         print(selected_label_iou)
         print("----------------------------------------------")
         iou_preds = iou_preds[iou_mask]
