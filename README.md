@@ -61,5 +61,5 @@ python -m pcdet.datasets.once.once_dataset --func create_once_infos --cfg_file t
 ```
 3. Traing with mutil GPUs
 ```
-
+qqq
 ```
