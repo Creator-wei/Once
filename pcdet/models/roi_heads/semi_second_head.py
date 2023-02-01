@@ -119,10 +119,7 @@ class SemiSECONDHead(RoIHeadTemplate):
         :param input_data: input dict
         :return:
         """
-        print("-------------------Model_Type----------------------")
-        self.model_type = 'student'
-        print(self.model_type)
-        print("---------------------------------------------------")
+        #self.model_type = 'student'
         # (training, get loss) (testing, iou scores)
         #if self.model_type == 'origin':
         if self.model_type in ['origin', 'student']:

@@ -40,11 +40,9 @@ class AnchorHeadSemi(AnchorHeadTemplate):
         nn.init.normal_(self.conv_box.weight, mean=0, std=0.001)
 
     def forward(self, data_dict):
-        print("-------------------Model_Type----------------------")
-        self.model_type = 'student'
-        print(self.model_type)
-        print("---------------------------------------------------")
-        
+        #self.model_type = 'student'
+
+
         spatial_features_2d = data_dict['spatial_features_2d']
 
         cls_preds = self.conv_cls(spatial_features_2d)

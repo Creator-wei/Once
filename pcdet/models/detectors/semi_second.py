@@ -89,10 +89,7 @@ class SemiSECONDIoU(Detector3DTemplate):
 
     def forward(self, batch_dict, Using_acc=False, mask=None):
         # origin: (training, return loss) (testing, return final boxes)
-        print("-------------------Model_Type----------------------")
-        self.model_type = 'student'
-        print(self.model_type)
-        print("---------------------------------------------------")
+        #self.model_type = 'student'
         if self.model_type == 'origin':
             for cur_module in self.module_list:
                 batch_dict = cur_module(batch_dict)
