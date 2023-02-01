@@ -14,7 +14,10 @@ class SemiSECOND(Detector3DTemplate):
         self.dense_head.model_type = model_type
 
     def forward(self, batch_dict):
-
+        print("-------------------Model_Type----------------------")
+        self.model_type = 'student'
+        print(self.model_type)
+        print("---------------------------------------------------")
         # origin: (training, return loss) (testing, return final boxes)
         if self.model_type == 'origin':
             for cur_module in self.module_list:
@@ -89,7 +92,6 @@ class SemiSECONDIoU(Detector3DTemplate):
     #teacher_model(ud_teacher_batch_dict) in /iou_match_3d.py
 
     def forward(self, batch_dict, Using_acc=False, mask=None):
-
         # origin: (training, return loss) (testing, return final boxes)
         if self.model_type == 'origin':
             for cur_module in self.module_list:

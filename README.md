@@ -57,9 +57,9 @@ python -m pcdet.datasets.once.once_dataset --func create_once_infos --cfg_file t
 ```
 2. Traing with signal GPU
 ```
-
+ python semi_train.py --cfg_file ./cfgs/once_models/semi_learning_models/ioumatch3d_second_small.yaml
 ```
 3. Traing with mutil GPUs
 ```
-
+bash scripts/dist_train.sh 2 --cfg_file ./cfgs/once_models/semi_learning_models/ioumatch3d_second_small.yaml
 ```
