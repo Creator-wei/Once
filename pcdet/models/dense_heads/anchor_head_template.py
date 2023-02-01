@@ -238,6 +238,8 @@ class AnchorHeadTemplate(nn.Module):
         cls_loss_src = self.cls_loss_func(cls_preds, one_hot_targets, weights=cls_weights)  # [N, M]
         print("-------------------loss-------------------")
         print(cls_loss_src)
+        print("Batch_Size=")
+        print(batch_size)
         print("-------------------loss-------------------")
         cls_loss = cls_loss_src.sum() / batch_size
 
