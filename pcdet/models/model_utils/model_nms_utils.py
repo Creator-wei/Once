@@ -21,28 +21,13 @@ def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=No
         cls_th = box_scores.new_zeros(box_scores.shape)
         num_class = len(cls_threshold_per_class)
         for cls_idx in range(num_class):
-            print("-----------label_preds--------------")
-            print(label_preds)
-            print("------------------END----------------------")
             class_mask = label_preds == (cls_idx+1)
-            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-            print(class_mask)
-            print(classwise_acc[cls_idx])
-            print(cls_threshold_per_class[cls_idx])
             if torch.all(class_mask == False):
                 print(cls_th)
                 cls_th[class_mask] = cls_threshold_per_class[cls_idx]
                 break
             else:
                 cls_th[class_mask] = cls_threshold_per_class[cls_idx]*classwise_acc[cls_idx]
-            print("###########################################")
-            print(cls_threshold_per_class[cls_idx])
-            print(classwise_acc[cls_idx])
-            print("###########################################")
-            print("-----------Threshold_hold_cls--------------")
-            print(class_mask)
-            print(cls_th[class_mask])
-            print("------------------END----------------------")
            
     if score_thresh is not None:
         if Using_Cls:
@@ -51,9 +36,6 @@ def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=No
                 if flag:
                     selected_label_cls[label] += 1
             #selected_label_iou = dict(selected_label_iou)
-            print("--------------selected_label_cls--------------")
-            print(selected_label_cls)
-            print("----------------------------------------------")
 
         box_scores = box_scores[scores_mask]
         #box_preds

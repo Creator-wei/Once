@@ -26,13 +26,6 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
             cls_preds = torch.sigmoid(cls_preds)
 
         iou_preds = iou_preds.squeeze(-1)
-        ###############################################################################
-        #max_iou_preds,max_iou_idx = torch.max(iou_preds,-1)
-        #print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-        #print(max_iou_preds)
-        #print(max_iou_idx)
-        #print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-        ###############################################################################
         # filtered by iou_threshold
         iou_threshold_per_class = cfgs.IOU_SCORE_THRESH
         num_classes = len(iou_threshold_per_class)
@@ -44,40 +37,11 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         '''
         for cls_idx in range(num_classes):
             class_mask = label_preds == (cls_idx + 1)
-            '''
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-            print(class_mask)
-            print(label_preds)
-            print(cls_idx+1)
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-            '''
+
             if torch.all(class_mask == False):
                 break
             iou_th[class_mask] = iou_threshold_per_class[cls_idx]*iouwise_acc[cls_idx]
-            '''
-            max_iou_preds,max_iou_idx = torch.max(iou_preds[class_mask],-1)
-            print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-            print(max_iou_preds)
-            print(max_iou_idx)
-            print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-            print("----------------for----------------------")
-            print(iou_th[class_mask])
-            print(iou_th[class_mask].size())
-            '''
-            print("-----------Threshold_hold_iou--------------")
-            print(class_mask)
-            print(iou_th[class_mask])
-            print("------------------END----------------------")
-            
-            ###############################################################################
-            #using to loss
-            #mask_iou = max_iou_preds.ge(iou_th[class_mask]*(iouwise_acc[cls_idx,max_iou_idx]/(2.-iouwise_acc[cls_idx,max_iou_idx]))).float()
-            #using to update iouwise_acc
-            #select_iou = max_iou_preds.ge(iou_th[class_mask]).long()
-            ###############################################################################
-            ###############################################################################
-            
-            ###############################################################################
+
         #先筛选可能的框
         iou_mask = iou_preds >= iou_th
         ###
@@ -85,22 +49,11 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
             if flag:
                 selected_label_iou[label] += 1
         #selected_label_iou = dict(selected_label_iou)
-        print("--------------selected_label_iou--------------")
-        print(iou_mask)
-        print(selected_label_iou)
-        print("----------------------------------------------")
         iou_preds = iou_preds[iou_mask]
         box_preds = box_preds[iou_mask]
         cls_preds = cls_preds[iou_mask]
         label_preds = label_preds[iou_mask]
-        
-        print("--------------2---------------")
-        print("iou_preds--------------------")
-        print(iou_preds)
-        print("cls_preds--------------------")
-        print(cls_preds)
-        print("label_preds--------------------")
-        print(label_preds)
+
         #再根据筛选出的框选出可能的目标
         nms_scores = cls_preds # iou_preds
         #Fillited by class_threshhold
@@ -148,7 +101,9 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         #pseudo_counter_iou = Counter(selected_label_iou.tolist())
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~ACC~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         print(index)
+        print("classwise_acc:")
         print(classwise_acc)
+        print("iouwise_acc:")
         print(iouwise_acc)
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~ACC~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
@@ -189,10 +144,10 @@ def iou_match_3d(teacher_model, student_model,
     #if max(pseudo_counter_cls.values()) < len(batch_dict):  # not all(5w) -1
     for i in range(len(cfgs.CLASS_NAMES)):
         iouwise_acc[i] = selected_label_iou[i+1] / sum(selected_label_iou.values())  # 每个类别/max
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~select~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print(selected_label_cls)
     print(selected_label_iou)
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~select~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print(classwise_acc)
     print(iouwise_acc)
     for i in range(len(cfgs.CLASS_NAMES)):
@@ -218,9 +173,7 @@ def iou_match_3d(teacher_model, student_model,
     #using reverse_transform to transform weak augment to strong augment for match the Stduent model
     teacher_boxes = reverse_transform(teacher_boxes, ud_teacher_batch_dict, ud_student_batch_dict)
     gt_boxes = construct_pseudo_label(teacher_boxes)
-    '''
-    mask = (mask_iou + mask_cls)/2
-    '''
+
     #ud_student_batch_dict is pseudo_label
     ud_student_batch_dict['gt_boxes'] = gt_boxes
     #Dist == False
