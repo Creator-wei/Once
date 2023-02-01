@@ -242,6 +242,12 @@ class AnchorHeadTemplate(nn.Module):
         cls_loss = cls_loss_src.sum() / batch_size
 
         cls_loss = cls_loss * self.model_cfg.LOSS_CONFIG.LOSS_WEIGHTS['cls_weight']
+        print("**************************cls_loss**************************")
+        print("cls_loss=")
+        print(cls_loss)
+        print("weight= ")
+        print(self.model_cfg.LOSS_CONFIG.LOSS_WEIGHTS['cls_weight'])
+        print("**************************cls_loss**************************")
         tb_dict = {
             'rpn_loss_cls': cls_loss.item()
         }
