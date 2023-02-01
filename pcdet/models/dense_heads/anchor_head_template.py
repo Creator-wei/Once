@@ -79,14 +79,17 @@ class AnchorHeadTemplate(nn.Module):
 
         self.add_module(
             'cls_loss_func',
+            #分类损失
             loss_utils.SigmoidFocalClassificationLoss(alpha=0.25, gamma=2.0)
         )
+        #定位回归损失
         reg_loss_name = 'WeightedSmoothL1Loss' if losses_cfg.get('REG_LOSS_TYPE', None) is None \
             else losses_cfg.REG_LOSS_TYPE
         self.add_module(
             'reg_loss_func',
             getattr(loss_utils, reg_loss_name)(code_weights=losses_cfg.LOSS_WEIGHTS['code_weights'])
         )
+        #方向损失
         self.add_module(
             'dir_loss_func',
             loss_utils.WeightedCrossEntropyLoss()
@@ -191,13 +194,21 @@ class AnchorHeadTemplate(nn.Module):
         return cls_loss, tb_dict
 
     def get_cls_layer_loss(self):
+        #predict values
         cls_preds = self.forward_ret_dict['cls_preds']
+        #regularation values
         box_cls_labels = self.forward_ret_dict['box_cls_labels']
 
         batch_size = int(cls_preds.shape[0])
         cared = box_cls_labels >= 0  # [N, num_anchors]
         positives = box_cls_labels > 0
         negatives = box_cls_labels == 0
+        print("----------------Box_Cls_Labels----------------")
+        print("Positive=")
+        print(positives)
+        print("Negative=")
+        print(negatives)
+        print("----------------Box_Cls_Labels----------------")
         negative_cls_weights = negatives * 1.0
         cls_weights = (negative_cls_weights + 1.0 * positives).float()
         reg_weights = positives.float()
@@ -288,6 +299,7 @@ class AnchorHeadTemplate(nn.Module):
                                    box_preds.shape[-1])
         # sin(a - b) = sinacosb-cosasinb
         box_preds_sin, reg_targets_sin = self.add_sin_difference(box_preds, box_reg_targets)
+        #定位损失
         loc_loss_src = self.reg_loss_func(box_preds_sin, reg_targets_sin, weights=reg_weights)  # [N, M]
         loc_loss = loc_loss_src.sum() / batch_size
 
@@ -307,6 +319,7 @@ class AnchorHeadTemplate(nn.Module):
             dir_logits = box_dir_cls_preds.view(batch_size, -1, self.model_cfg.NUM_DIR_BINS)
             weights = positives.type_as(dir_logits)
             weights /= torch.clamp(weights.sum(-1, keepdim=True), min=1.0)
+            #方向损失
             dir_loss = self.dir_loss_func(dir_logits, dir_targets, weights=weights)
             dir_loss = dir_loss.sum() / batch_size
             dir_loss = dir_loss * self.model_cfg.LOSS_CONFIG.LOSS_WEIGHTS['dir_weight']
@@ -316,7 +329,9 @@ class AnchorHeadTemplate(nn.Module):
         return box_loss, tb_dict
 
     def get_loss(self):
+        #分类损失
         cls_loss, tb_dict = self.get_cls_layer_loss()
+        #定位损失和反向损失
         box_loss, tb_dict_box = self.get_box_reg_layer_loss()
         tb_dict.update(tb_dict_box)
 

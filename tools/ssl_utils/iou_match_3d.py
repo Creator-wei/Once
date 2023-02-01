@@ -148,8 +148,7 @@ def iou_match_3d(teacher_model, student_model,
     print(selected_label_cls)
     print(selected_label_iou)
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~select~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    print(classwise_acc)
-    print(iouwise_acc)
+
     for i in range(len(cfgs.CLASS_NAMES)):
         selected_label_cls[i+1]=0
         selected_label_iou[i+1]=0
