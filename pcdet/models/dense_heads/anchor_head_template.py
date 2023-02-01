@@ -312,6 +312,11 @@ class AnchorHeadTemplate(nn.Module):
         #定位损失
         loc_loss_src = self.reg_loss_func(box_preds_sin, reg_targets_sin, weights=reg_weights)  # [N, M]
         print("-------------------get_box_reg_layer_loss-------------------")
+        print("box_preds_sin=")
+        print(box_preds_sin)
+        print("reg_targets_sin=")
+        print(reg_targets_sin)
+        print("loc_loss_src")
         print(loc_loss_src)
         print("-------------------get_box_reg_layer_loss-------------------")
         loc_loss = loc_loss_src.sum() / batch_size
@@ -335,6 +340,11 @@ class AnchorHeadTemplate(nn.Module):
             #方向损失
             dir_loss = self.dir_loss_func(dir_logits, dir_targets, weights=weights)
             print("-------------------dir_loss-------------------")
+            print("dir_logits")
+            print(dir_logits)
+            print("dir_targets")
+            print(dir_targets)
+            print("loc_loss_src")
             print(loc_loss_src)
             print("-------------------dir_loss-------------------")
             dir_loss = dir_loss.sum() / batch_size
@@ -350,7 +360,12 @@ class AnchorHeadTemplate(nn.Module):
         #定位损失和反向损失
         box_loss, tb_dict_box = self.get_box_reg_layer_loss()
         tb_dict.update(tb_dict_box)
-
+        print("^^^^^^^^^^^^^^^^^^Final_Loss^^^^^^^^^^^^^^^^^^^^")
+        print("cls_loss=")
+        print(cls_loss)
+        print("box_loss=")
+        print(box_loss)
+        print("^^^^^^^^^^^^^^^^^^Final_Loss^^^^^^^^^^^^^^^^^^^^")
         if self.model_cfg.get('USE_BEV_SEG', False):
             seg_loss, tb_dict_seg = self.get_seg_layer_loss()
             tb_dict.update(tb_dict_seg)
