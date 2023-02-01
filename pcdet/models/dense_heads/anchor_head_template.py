@@ -236,21 +236,22 @@ class AnchorHeadTemplate(nn.Module):
         print(one_hot_targets)
         print("-------------------class-------------------")
         cls_loss_src = self.cls_loss_func(cls_preds, one_hot_targets, weights=cls_weights)  # [N, M]
-        print("-------------------loss-------------------")
+        print("-------------------cls_loss_src-------------------")
         print(cls_loss_src)
+        #torch.Size([4, 353440, 5])
         print(cls_loss_src.size())
         print("Batch_Size=")
         print(batch_size)
-        print("-------------------loss-------------------")
+        print("-------------------cls_loss_src-------------------")
         cls_loss = cls_loss_src.sum() / batch_size
 
         cls_loss = cls_loss * self.model_cfg.LOSS_CONFIG.LOSS_WEIGHTS['cls_weight']
-        print("**************************cls_loss**************************")
+        print("**************************cls_loss_src**************************")
         print("cls_loss=")
         print(cls_loss)
         print("weight= ")
         print(self.model_cfg.LOSS_CONFIG.LOSS_WEIGHTS['cls_weight'])
-        print("**************************cls_loss**************************")
+        print("**************************cls_loss_src**************************")
         tb_dict = {
             'rpn_loss_cls': cls_loss.item()
         }
@@ -310,6 +311,9 @@ class AnchorHeadTemplate(nn.Module):
         box_preds_sin, reg_targets_sin = self.add_sin_difference(box_preds, box_reg_targets)
         #定位损失
         loc_loss_src = self.reg_loss_func(box_preds_sin, reg_targets_sin, weights=reg_weights)  # [N, M]
+        print("-------------------get_box_reg_layer_loss-------------------")
+        print(loc_loss_src)
+        print("-------------------get_box_reg_layer_loss-------------------")
         loc_loss = loc_loss_src.sum() / batch_size
 
         loc_loss = loc_loss * self.model_cfg.LOSS_CONFIG.LOSS_WEIGHTS['loc_weight']
@@ -330,6 +334,9 @@ class AnchorHeadTemplate(nn.Module):
             weights /= torch.clamp(weights.sum(-1, keepdim=True), min=1.0)
             #方向损失
             dir_loss = self.dir_loss_func(dir_logits, dir_targets, weights=weights)
+            print("-------------------dir_loss-------------------")
+            print(loc_loss_src)
+            print("-------------------dir_loss-------------------")
             dir_loss = dir_loss.sum() / batch_size
             dir_loss = dir_loss * self.model_cfg.LOSS_CONFIG.LOSS_WEIGHTS['dir_weight']
             box_loss += dir_loss
