@@ -193,12 +193,7 @@ class AnchorHeadTemplate(nn.Module):
     def get_cls_layer_loss(self):
         cls_preds = self.forward_ret_dict['cls_preds']
         box_cls_labels = self.forward_ret_dict['box_cls_labels']
-        print("-------------------class-------------------")
-        print("cls_preds")
-        print(cls_preds)
-        print("box_cls_labels")
-        print(box_cls_labels)
-        print("-------------------class-------------------")
+
         batch_size = int(cls_preds.shape[0])
         cared = box_cls_labels >= 0  # [N, num_anchors]
         positives = box_cls_labels > 0
@@ -223,6 +218,12 @@ class AnchorHeadTemplate(nn.Module):
         one_hot_targets.scatter_(-1, cls_targets.unsqueeze(dim=-1).long(), 1.0)
         cls_preds = cls_preds.view(batch_size, -1, self.num_class)
         one_hot_targets = one_hot_targets[..., 1:]
+        print("-------------------class-------------------")
+        print("cls_preds")
+        print(cls_preds)
+        print("one_hot_targets")
+        print(one_hot_targets)
+        print("-------------------class-------------------")
         cls_loss_src = self.cls_loss_func(cls_preds, one_hot_targets, weights=cls_weights)  # [N, M]
         print("-------------------loss-------------------")
         print(cls_loss_src)
