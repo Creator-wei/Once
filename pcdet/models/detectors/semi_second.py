@@ -14,10 +14,6 @@ class SemiSECOND(Detector3DTemplate):
         self.dense_head.model_type = model_type
 
     def forward(self, batch_dict):
-        print("-------------------Model_Type----------------------")
-        self.model_type = 'student'
-        print(self.model_type)
-        print("---------------------------------------------------")
         # origin: (training, return loss) (testing, return final boxes)
         if self.model_type == 'origin':
             for cur_module in self.module_list:
@@ -93,6 +89,10 @@ class SemiSECONDIoU(Detector3DTemplate):
 
     def forward(self, batch_dict, Using_acc=False, mask=None):
         # origin: (training, return loss) (testing, return final boxes)
+        print("-------------------Model_Type----------------------")
+        self.model_type = 'student'
+        print(self.model_type)
+        print("---------------------------------------------------")
         if self.model_type == 'origin':
             for cur_module in self.module_list:
                 batch_dict = cur_module(batch_dict)
