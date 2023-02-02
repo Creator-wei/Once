@@ -99,6 +99,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
                 #index is in different batch
         ######################################################################################
         #pseudo_counter_iou = Counter(selected_label_iou.tolist())
+        '''
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~ACC~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         print(index)
         print("classwise_acc:")
@@ -106,6 +107,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         print("iouwise_acc:")
         print(iouwise_acc)
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~ACC~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        '''
 
     #return pred_dicts, select_iou, select_cls, mask_iou, mask_cls, max_iou_idx, max_cls_idx
     return pred_dicts, iou_mask, scores_mask,selected_label_cls, selected_label_iou
@@ -148,6 +150,12 @@ def iou_match_3d(teacher_model, student_model,
     print(selected_label_cls)
     print(selected_label_iou)
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~select~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~ACC~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("classwise_acc:")
+    print(classwise_acc)
+    print("iouwise_acc:")
+    print(iouwise_acc)
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~ACC~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
     for i in range(len(cfgs.CLASS_NAMES)):
         selected_label_cls[i+1]=0
@@ -176,6 +184,10 @@ def iou_match_3d(teacher_model, student_model,
     #ud_student_batch_dict is pseudo_label
     ud_student_batch_dict['gt_boxes'] = gt_boxes
     #Dist == False
+    Mask_acc=(classwise_acc+iouwise_acc)/2
+    print("^^^^^^^^^^^^^^^^^^^Mask_Acc^^^^^^^^^^^^^^^^^^^^")
+    print(Mask_acc)
+    print("^^^^^^^^^^^^^^^^^^^Mask_Acc^^^^^^^^^^^^^^^^^^^^")   
     if not dist:
         #supervised
         #############################################################################################################
@@ -183,7 +195,7 @@ def iou_match_3d(teacher_model, student_model,
         #unsupervised          
         #############################################################################################################
         #_, ud_ret_dict, tb_dict, disp_dict = student_model(ud_student_batch_dict, Using_acc=True, mask= mask)
-        _, ud_ret_dict, tb_dict, disp_dict = student_model(ud_student_batch_dict,Using_acc=True, mask=iouwise_acc)
+        _, ud_ret_dict, tb_dict, disp_dict = student_model(ud_student_batch_dict,Using_acc=True, mask=Mask_acc)
     else:
         (_, ld_ret_dict, _, _), (_, ud_ret_dict, tb_dict, disp_dict) = student_model(ld_student_batch_dict, ud_student_batch_dict)
 
