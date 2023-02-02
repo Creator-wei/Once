@@ -193,7 +193,7 @@ class AnchorHeadTemplate(nn.Module):
         }
         return cls_loss, tb_dict
 
-    def get_cls_layer_loss(self,mask=1.0):
+    def get_cls_layer_loss(self,mask=[1.0, 1.0, 1.0, 1.0, 1.0]):
         #predict values
         cls_preds = self.forward_ret_dict['cls_preds']
         #regularation values
@@ -241,7 +241,7 @@ class AnchorHeadTemplate(nn.Module):
         #torch.Size([4, 353440, 5])
         print(cls_loss_src.size())
         device = cls_loss_src.device
-        loss_mask=mask
+        loss_mask=torch.tensor(mask)
         loss_mask=loss_mask.view(1,1,5).expand_as(cls_loss_src).to(device)
         print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
         print(loss_mask)
