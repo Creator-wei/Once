@@ -203,12 +203,6 @@ class AnchorHeadTemplate(nn.Module):
         cared = box_cls_labels >= 0  # [N, num_anchors]
         positives = box_cls_labels > 0
         negatives = box_cls_labels == 0
-        print("----------------Box_Cls_Labels----------------")
-        print("Positive=")
-        print(positives)
-        print("Negative=")
-        print(negatives)
-        print("----------------Box_Cls_Labels----------------")
         negative_cls_weights = negatives * 1.0
         cls_weights = (negative_cls_weights + 1.0 * positives).float()
         reg_weights = positives.float()
@@ -229,12 +223,14 @@ class AnchorHeadTemplate(nn.Module):
         one_hot_targets.scatter_(-1, cls_targets.unsqueeze(dim=-1).long(), 1.0)
         cls_preds = cls_preds.view(batch_size, -1, self.num_class)
         one_hot_targets = one_hot_targets[..., 1:]
+        '''
         print("-------------------class-------------------")
         print("cls_preds")
         print(cls_preds)
         print("one_hot_targets")
         print(one_hot_targets)
         print("-------------------class-------------------")
+        '''
         cls_loss_src = self.cls_loss_func(cls_preds, one_hot_targets, weights=cls_weights)  # [N, M]
         print("-------------------cls_loss_src-------------------")
         print(cls_loss_src)
@@ -243,12 +239,11 @@ class AnchorHeadTemplate(nn.Module):
         device = cls_loss_src.device
         loss_mask=torch.tensor(mask)
         loss_mask=loss_mask.view(1,1,5).expand_as(cls_loss_src).to(device)
-        print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+        print("^^^^^^^^^^^^^^^^^^Mask^^^^^^^^^^^^^^^^^^")
         print(loss_mask)
-        print(loss_mask)
-        print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+        print("^^^^^^^^^^^^^^^^^^Mask^^^^^^^^^^^^^^^^^^")
         cls_loss_src = cls_loss_src * loss_mask
-        print("After process of loss")
+        print("After process of loss=")
         print(cls_loss_src)
         print("Batch_Size=")
         print(batch_size)
@@ -258,9 +253,6 @@ class AnchorHeadTemplate(nn.Module):
         cls_loss = cls_loss * self.model_cfg.LOSS_CONFIG.LOSS_WEIGHTS['cls_weight']
         print("**************************cls_loss_src**************************")
         print("cls_loss=")
-        print(cls_loss)
-        print("weight= ")
-        print(self.model_cfg.LOSS_CONFIG.LOSS_WEIGHTS['cls_weight'])
         print("**************************cls_loss_src**************************")
         tb_dict = {
             'rpn_loss_cls': cls_loss.item()
@@ -321,6 +313,7 @@ class AnchorHeadTemplate(nn.Module):
         box_preds_sin, reg_targets_sin = self.add_sin_difference(box_preds, box_reg_targets)
         #定位损失
         loc_loss_src = self.reg_loss_func(box_preds_sin, reg_targets_sin, weights=reg_weights)  # [N, M]
+        '''
         print("-------------------get_box_reg_layer_loss-------------------")
         print("box_preds_sin=")
         print(box_preds_sin)
@@ -329,6 +322,7 @@ class AnchorHeadTemplate(nn.Module):
         print("loc_loss_src")
         print(loc_loss_src)
         print("-------------------get_box_reg_layer_loss-------------------")
+        '''
         loc_loss = loc_loss_src.sum() / batch_size
 
         loc_loss = loc_loss * self.model_cfg.LOSS_CONFIG.LOSS_WEIGHTS['loc_weight']
@@ -349,6 +343,7 @@ class AnchorHeadTemplate(nn.Module):
             weights /= torch.clamp(weights.sum(-1, keepdim=True), min=1.0)
             #方向损失
             dir_loss = self.dir_loss_func(dir_logits, dir_targets, weights=weights)
+            '''
             print("-------------------dir_loss-------------------")
             print("dir_logits")
             print(dir_logits)
@@ -357,6 +352,7 @@ class AnchorHeadTemplate(nn.Module):
             print("loc_loss_src")
             print(loc_loss_src)
             print("-------------------dir_loss-------------------")
+            '''
             dir_loss = dir_loss.sum() / batch_size
             dir_loss = dir_loss * self.model_cfg.LOSS_CONFIG.LOSS_WEIGHTS['dir_weight']
             box_loss += dir_loss
