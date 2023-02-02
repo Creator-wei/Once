@@ -234,13 +234,15 @@ class AnchorHeadTemplate(nn.Module):
         cls_loss_src = self.cls_loss_func(cls_preds, one_hot_targets, weights=cls_weights)  # [N, M]
         print("-------------------cls_loss_src-------------------")
         print(cls_loss_src)
+        print("-------------------cls_loss_src-------------------")
         #torch.Size([4, 353440, 5])
-        print(cls_loss_src.size())
         device = cls_loss_src.device
         loss_mask=torch.tensor(mask)
         loss_mask=loss_mask.view(1,1,5).expand_as(cls_loss_src).to(device)
         print("^^^^^^^^^^^^^^^^^^Mask^^^^^^^^^^^^^^^^^^")
+        print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
         print(loss_mask)
+        print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
         print("^^^^^^^^^^^^^^^^^^Mask^^^^^^^^^^^^^^^^^^")
         cls_loss_src = cls_loss_src * loss_mask
         print("After process of loss=")
@@ -360,7 +362,7 @@ class AnchorHeadTemplate(nn.Module):
 
         return box_loss, tb_dict
 
-    def get_loss(self,mask=1.0):
+    def get_loss(self,mask=[1.0, 1.0, 1.0, 1.0, 1.0]):
         #分类损失
         cls_loss, tb_dict = self.get_cls_layer_loss(mask)
         #定位损失和反向损失

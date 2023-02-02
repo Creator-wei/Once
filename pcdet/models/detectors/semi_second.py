@@ -134,7 +134,7 @@ class SemiSECONDIoU(Detector3DTemplate):
     def get_training_loss(self, Using_acc=False, mask=[1.0, 1.0, 1.0, 1.0, 1.0]):
         disp_dict = {}
 
-        loss_rpn, tb_dict = self.dense_head.get_loss(mask)
+        loss_rpn, tb_dict = self.dense_head.get_loss(mask=mask)
         tb_dict = {
             'loss_rpn': loss_rpn.item(),
             **tb_dict
