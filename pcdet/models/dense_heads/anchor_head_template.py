@@ -193,7 +193,7 @@ class AnchorHeadTemplate(nn.Module):
         }
         return cls_loss, tb_dict
 
-    def get_cls_layer_loss(self,Using_acc=False, mask=None):
+    def get_cls_layer_loss(self,Using_acc, mask):
         #predict values
         cls_preds = self.forward_ret_dict['cls_preds']
         #regularation values
@@ -363,9 +363,9 @@ class AnchorHeadTemplate(nn.Module):
 
         return box_loss, tb_dict
 
-    def get_loss(self,Using_acc=False, mask=None):
+    def get_loss(self,Using_acc, mask):
         #分类损失
-        cls_loss, tb_dict = self.get_cls_layer_loss(Using_acc=False, mask=None)
+        cls_loss, tb_dict = self.get_cls_layer_loss(Using_acc, mask)
         #定位损失和反向损失
         box_loss, tb_dict_box = self.get_box_reg_layer_loss()
         tb_dict.update(tb_dict_box)
