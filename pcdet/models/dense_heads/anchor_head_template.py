@@ -240,6 +240,9 @@ class AnchorHeadTemplate(nn.Module):
         print(cls_loss_src)
         #torch.Size([4, 353440, 5])
         print(cls_loss_src.size())
+        cls_loss_src = cls_loss_src * [2,2,2,2,2]
+        print("After process of loss")
+        print(cls_loss_src)
         print("Batch_Size=")
         print(batch_size)
         print("-------------------cls_loss_src-------------------")
