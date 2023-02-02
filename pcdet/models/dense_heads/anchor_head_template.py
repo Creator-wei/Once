@@ -193,7 +193,7 @@ class AnchorHeadTemplate(nn.Module):
         }
         return cls_loss, tb_dict
 
-    def get_cls_layer_loss(self):
+    def get_cls_layer_loss(self,mask=1.0):
         #predict values
         cls_preds = self.forward_ret_dict['cls_preds']
         #regularation values
@@ -241,13 +241,13 @@ class AnchorHeadTemplate(nn.Module):
         #torch.Size([4, 353440, 5])
         print(cls_loss_src.size())
         device = cls_loss_src.device
-        b=torch.tensor([2,2,2,2,2])
-        b=b.view(1,1,5).expand_as(cls_loss_src).to(device)
+        loss_mask=mask
+        loss_mask=loss_mask.view(1,1,5).expand_as(cls_loss_src).to(device)
         print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
-        print(b)
-        print(b.size())
+        print(loss_mask)
+        print(loss_mask)
         print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
-        cls_loss_src = cls_loss_src * b
+        cls_loss_src = cls_loss_src * loss_mask
         print("After process of loss")
         print(cls_loss_src)
         print("Batch_Size=")
@@ -364,9 +364,9 @@ class AnchorHeadTemplate(nn.Module):
 
         return box_loss, tb_dict
 
-    def get_loss(self):
+    def get_loss(self,mask=1.0):
         #分类损失
-        cls_loss, tb_dict = self.get_cls_layer_loss()
+        cls_loss, tb_dict = self.get_cls_layer_loss(mask)
         #定位损失和反向损失
         box_loss, tb_dict_box = self.get_box_reg_layer_loss()
         tb_dict.update(tb_dict_box)

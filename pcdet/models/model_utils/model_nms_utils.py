@@ -26,7 +26,7 @@ def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=No
                 cls_th[class_mask] = cls_threshold_per_class[cls_idx]
                 break
             else:
-                cls_th[class_mask] = cls_threshold_per_class[cls_idx]*classwise_acc[cls_idx]
+                cls_th[class_mask] = cls_threshold_per_class[cls_idx]#*classwise_acc[cls_idx]
            
     if score_thresh is not None:
         if Using_Cls:
