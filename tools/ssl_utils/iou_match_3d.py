@@ -85,11 +85,13 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         final_boxes = final_boxes[zero_mask]
         final_labels = final_labels[zero_mask]
         final_scores = final_scores[zero_mask]
+        '''
         print("-----------------------Final---------------------")
         print(final_boxes.size())
         print(final_labels.size())
         print(final_scores.size())
         print("-------------------------------------------------")
+        '''
         record_dict = {
             'pred_boxes': final_boxes,
             'pred_scores': final_scores,
@@ -126,12 +128,7 @@ def iou_match_3d(teacher_model, student_model,
     load_data_to_gpu(ud_student_batch_dict)
     load_data_to_gpu(ud_teacher_batch_dict)
     ###############################################################################
-    '''
-    selected_label_iou = torch.ones((len(ud_teacher_batch_dict),), dtype=torch.long, ) * -1  # 先设置标签都为-1       --->2
-    selected_label_iou = selected_label_iou.cuda()
-    selected_label_cls = torch.ones((len(ud_teacher_batch_dict),), dtype=torch.long, ) * -1  # 先设置标签都为-1       --->2
-    selected_label_cls = selected_label_cls.cuda()
-    '''
+
     ####################################################################################
     classwise_acc = torch.ones(len(cfgs.CLASS_NAMES),dtype=torch.float32).cuda()
     #classwise_acc = classwise_acc * 0.1
