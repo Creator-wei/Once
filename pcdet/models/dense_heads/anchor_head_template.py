@@ -363,9 +363,9 @@ class AnchorHeadTemplate(nn.Module):
 
         return box_loss, tb_dict
 
-    def get_loss(self,Using_acc, mask):
+    def get_loss(self,Using_acc=None, mask=None):
         #分类损失
-        cls_loss, tb_dict = self.get_cls_layer_loss(Using_acc, mask)
+        cls_loss, tb_dict = self.get_cls_layer_loss(Using_acc=Using_acc, mask=mask)
         #定位损失和反向损失
         box_loss, tb_dict_box = self.get_box_reg_layer_loss()
         tb_dict.update(tb_dict_box)

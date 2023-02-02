@@ -133,7 +133,7 @@ class SemiSECONDIoU(Detector3DTemplate):
             raise Exception('Unsupprted model type')
     def get_training_loss(self, Using_acc=None, mask=None):
         disp_dict = {}
-        loss_rpn, tb_dict = self.dense_head.get_loss(mask)
+        loss_rpn, tb_dict = self.dense_head.get_loss(Using_acc=Using_acc,mask=mask)
         tb_dict = {
             'loss_rpn': loss_rpn.item(),
             **tb_dict
