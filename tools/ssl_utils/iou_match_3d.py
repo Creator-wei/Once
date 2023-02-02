@@ -137,12 +137,12 @@ def iou_match_3d(teacher_model, student_model,
 
     ####################################################################################
     for i in range(len(cfgs.CLASS_NAMES)):
-        classwise_acc[i] = selected_label_cls[i+1] / max(selected_label_cls.values())  # 每个类别/max
+        classwise_acc[i] = 1-(selected_label_cls[i+1] / sum(selected_label_cls.values()))  # 每个类别/max
                 
     #pseudo_counter_cls = Counter(scores_mask.tolist())
     #if max(pseudo_counter_cls.values()) < len(batch_dict):  # not all(5w) -1
     for i in range(len(cfgs.CLASS_NAMES)):
-        iouwise_acc[i] = selected_label_iou[i+1] / max(selected_label_iou.values())  # 每个类别/max
+        iouwise_acc[i] = 1-(selected_label_iou[i+1] / sum(selected_label_iou.values()))  # 每个类别/max
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~select~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print(selected_label_cls)
     print(selected_label_iou)
