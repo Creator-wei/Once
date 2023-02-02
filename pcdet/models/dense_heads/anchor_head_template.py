@@ -241,7 +241,7 @@ class AnchorHeadTemplate(nn.Module):
         #torch.Size([4, 353440, 5])
         print(cls_loss_src.size())
         b=torch.tensor([2,2,2,2,2])
-        b=b.view(1,1,5)
+        b=b.view(1,1,5).expand_as(cls_loss_src)
         cls_loss_src = cls_loss_src * b
         print("After process of loss")
         print(cls_loss_src)
