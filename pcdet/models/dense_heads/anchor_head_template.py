@@ -193,7 +193,7 @@ class AnchorHeadTemplate(nn.Module):
         }
         return cls_loss, tb_dict
 
-    def get_cls_layer_loss(self,Using_acc, mask):
+    def get_cls_layer_loss(self,Using_acc=None, mask=None):
         #predict values
         cls_preds = self.forward_ret_dict['cls_preds']
         #regularation values
