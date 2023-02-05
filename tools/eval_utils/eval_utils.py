@@ -121,16 +121,17 @@ def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, sa
 
     logger.info(result_str)
     ret_dict.update(result_dict)
+    Class_Ap = {}
     ###############################################Add_Tensorboard#########################################
     if tb_log is not None:
         if model_type == "teacher":
             for cur_class in CLASS_NAMES:
-                Class_Ap = "{:.2f}".format(result_dict['AP_' + cur_class + '/' + 'overall'])
-                tb_log.add_scalar('eval/student/'+cur_class,Class_Ap,epoch_id)
+                Class_Ap[cur_class] = "{:.2f}".format(result_dict['AP_' + cur_class + '/' + 'overall'])
+            tb_log.add_scalars('eval/student/',Class_Ap,epoch_id)
         if model_type == "student":
             for cur_class in CLASS_NAMES:
-                Class_Ap = "{:.2f}".format(result_dict['AP_' + cur_class + '/' + 'overall'])
-                tb_log.add_scalar('eval/teacher/'+cur_class,Class_Ap,epoch_id)
+                Class_Ap[cur_class] = "{:.2f}".format(result_dict['AP_' + cur_class + '/' + 'overall'])
+            tb_log.add_scalars('eval/student/',Class_Ap,epoch_id)
     ###############################################Add_Tensorboard#########################################
     logger.info('Result is save to %s' % result_dir)
     logger.info('****************Evaluation done.*****************')
