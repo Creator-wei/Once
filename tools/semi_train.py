@@ -311,7 +311,9 @@ def main():
         eval_output_dir = eval_ssl_dir,
         logger = logger,
         ckpt_dir = ssl_ckpt_dir / 'student',
-        dist_test=dist_train
+        dist_test=dist_train,
+        tb_log=tb_log,
+        model_type = "student"
     )
     logger.info('**********************End evaluation for student model %s/%s(%s)**********************' %
                 (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
@@ -334,7 +336,9 @@ def main():
         eval_output_dir = eval_ssl_dir,
         logger = logger,
         ckpt_dir = ssl_ckpt_dir / 'teacher',
-        dist_test=dist_train
+        dist_test=dist_train,
+        tb_log=tb_log,
+        model_type = "teacher"
     )
     logger.info('**********************End evaluation for teacher model %s/%s(%s)**********************' %
                 (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))

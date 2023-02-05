@@ -20,7 +20,7 @@ def statistics_info(cfg, ret_dict, metric, disp_dict):
         '(%d, %d) / %d' % (metric['recall_roi_%s' % str(min_thresh)], metric['recall_rcnn_%s' % str(min_thresh)], metric['gt_num'])
 
 
-def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, save_to_file=False, result_dir=None):
+def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, save_to_file=False, result_dir=None,tb_log=None,model_type = None):
     result_dir.mkdir(parents=True, exist_ok=True)
 
     final_output_dir = result_dir / 'final_result' / 'data'
@@ -121,8 +121,17 @@ def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, sa
 
     logger.info(result_str)
     ret_dict.update(result_dict)
-    for cur_class in CLASS_NAMES:
-        print(result_dict['AP_' + cur_class + '/' + 'overall'])
+    ###############################################Add_Tensorboard#########################################
+    if tb_log is not None:
+        if model_type == "teacher":
+            for cur_class in CLASS_NAMES:
+                Class_Ap = "{:.2f}".format(result_dict['AP_' + cur_class + '/' + 'overall'])
+                tb_log.add_scalar('eval/student/'+cur_class,Class_Ap,epoch_id)
+        if model_type == "student":
+            for cur_class in CLASS_NAMES:
+                Class_Ap = "{:.2f}".format(result_dict['AP_' + cur_class + '/' + 'overall'])
+                tb_log.add_scalar('eval/teacher/'+cur_class,Class_Ap,epoch_id)
+    ###############################################Add_Tensorboard#########################################
     logger.info('Result is save to %s' % result_dir)
     logger.info('****************Evaluation done.*****************')
     return ret_dict
