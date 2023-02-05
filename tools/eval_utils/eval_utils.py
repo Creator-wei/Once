@@ -8,6 +8,7 @@ import tqdm
 from pcdet.models import load_data_to_gpu
 from pcdet.utils import common_utils
 
+CLASS_NAMES = ['Car', 'Bus', 'Truck', 'Pedestrian', 'Cyclist']
 
 def statistics_info(cfg, ret_dict, metric, disp_dict):
     for cur_thresh in cfg.MODEL.POST_PROCESSING.RECALL_THRESH_LIST:
@@ -111,7 +112,7 @@ def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, sa
 
     with open(result_dir / 'result.pkl', 'wb') as f:
         pickle.dump(det_annos, f)
-
+    #Out_put precesion
     result_str, result_dict = dataset.evaluation(
         det_annos, class_names,
         eval_metric=cfg.MODEL.POST_PROCESSING.EVAL_METRIC,
@@ -120,7 +121,8 @@ def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, sa
 
     logger.info(result_str)
     ret_dict.update(result_dict)
-
+    for cur_class in CLASS_NAMES:
+        print(result_dict['AP_' + cur_class + '/' + 'overall'])
     logger.info('Result is save to %s' % result_dir)
     logger.info('****************Evaluation done.*****************')
     return ret_dict
