@@ -125,12 +125,18 @@ def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, sa
     ###############################################Add_Tensorboard#########################################
     if tb_log is not None:
         if model_type == "teacher":
-            for cur_class in CLASS_NAMES:
-                Class_Ap={cur_class:"{:.2f}".format(result_dict['AP_' + cur_class + '/' + 'overall'])}
+            Class_Ap={'Car':"{:.2f}".format(result_dict['AP_' + 'Car' + '/' + 'overall']),
+                      'Bus':"{:.2f}".format(result_dict['AP_' + 'Bus' + '/' + 'overall']),
+                      'Truck':"{:.2f}".format(result_dict['AP_' + 'Truck' + '/' + 'overall']),
+                      'Pedestrian':"{:.2f}".format(result_dict['AP_' + 'Pedestrian' + '/' + 'overall']),
+                      'Cyclist':"{:.2f}".format(result_dict['AP_' + 'Cyclist' + '/' + 'overall'])}
             tb_log.add_scalars('eval/student/',Class_Ap,epoch_id)
         if model_type == "student":
-            for cur_class in CLASS_NAMES:
-                Class_Ap={cur_class:"{:.2f}".format(result_dict['AP_' + cur_class + '/' + 'overall'])}
+            Class_Ap={'Car':"{:.2f}".format(result_dict['AP_' + 'Car' + '/' + 'overall']),
+                      'Bus':"{:.2f}".format(result_dict['AP_' + 'Bus' + '/' + 'overall']),
+                      'Truck':"{:.2f}".format(result_dict['AP_' + 'Truck' + '/' + 'overall']),
+                      'Pedestrian':"{:.2f}".format(result_dict['AP_' + 'Pedestrian' + '/' + 'overall']),
+                      'Cyclist':"{:.2f}".format(result_dict['AP_' + 'Cyclist' + '/' + 'overall'])}
             tb_log.add_scalars('eval/student/',Class_Ap,epoch_id)
     ###############################################Add_Tensorboard#########################################
     logger.info('Result is save to %s' % result_dir)
