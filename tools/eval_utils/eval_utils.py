@@ -124,6 +124,13 @@ def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, sa
     ###############################################Add_Tensorboard#########################################
     if tb_log is not None:
         if model_type == "teacher":
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            print("{:.2f}".format(result_dict['AP_' + 'Car' + '/' + 'overall']))
+            print("{:.2f}".format(result_dict['AP_' + 'Bus' + '/' + 'overall']))
+            print("{:.2f}".format(result_dict['AP_' + 'Truck' + '/' + 'overall']))
+            print("{:.2f}".format(result_dict['AP_' + 'Pedestrian' + '/' + 'overall']))
+            print("{:.2f}".format(result_dict['AP_' + 'Cyclist' + '/' + 'overall']))
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             tb_log.add_scalars('eval/teacher',
                                {'Car':"{:.2f}".format(result_dict['AP_' + 'Car' + '/' + 'overall']),
                                'Bus':"{:.2f}".format(result_dict['AP_' + 'Bus' + '/' + 'overall']),
@@ -132,6 +139,13 @@ def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, sa
                                'Cyclist':"{:.2f}".format(result_dict['AP_' + 'Cyclist' + '/' + 'overall'])},
                                epoch_id)
         if model_type == "student":
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            print("{:.2f}".format(result_dict['AP_' + 'Car' + '/' + 'overall']))
+            print("{:.2f}".format(result_dict['AP_' + 'Bus' + '/' + 'overall']))
+            print("{:.2f}".format(result_dict['AP_' + 'Truck' + '/' + 'overall']))
+            print("{:.2f}".format(result_dict['AP_' + 'Pedestrian' + '/' + 'overall']))
+            print("{:.2f}".format(result_dict['AP_' + 'Cyclist' + '/' + 'overall']))
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             tb_log.add_scalars('eval/student',
                                {'Car':"{:.2f}".format(result_dict['AP_' + 'Car' + '/' + 'overall']),
                                'Bus':"{:.2f}".format(result_dict['AP_' + 'Bus' + '/' + 'overall']),
@@ -140,7 +154,14 @@ def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, sa
                                'Cyclist':"{:.2f}".format(result_dict['AP_' + 'Cyclist' + '/' + 'overall'])},
                                epoch_id)
         if model_type == "pretain":
-            tb_log.add_scalars('eval/student',
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            print("{:.2f}".format(result_dict['AP_' + 'Car' + '/' + 'overall']))
+            print("{:.2f}".format(result_dict['AP_' + 'Bus' + '/' + 'overall']))
+            print("{:.2f}".format(result_dict['AP_' + 'Truck' + '/' + 'overall']))
+            print("{:.2f}".format(result_dict['AP_' + 'Pedestrian' + '/' + 'overall']))
+            print("{:.2f}".format(result_dict['AP_' + 'Cyclist' + '/' + 'overall']))
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            tb_log.add_scalars('eval/pretain',
                                {'Car':"{:.2f}".format(result_dict['AP_' + 'Car' + '/' + 'overall']),
                                'Bus':"{:.2f}".format(result_dict['AP_' + 'Bus' + '/' + 'overall']),
                                'Truck':"{:.2f}".format(result_dict['AP_' + 'Truck' + '/' + 'overall']),
