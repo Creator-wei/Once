@@ -130,6 +130,7 @@ def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, sa
     print("#############################################################################")  
     ###############################################Add_Tensorboard#########################################
     if tb_log is not None:
+        print("*********************tb_log is not None*************************")
         if model_type == "teacher":
             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             print(result_dict['AP_' + 'Car' + '/' + 'overall'])
