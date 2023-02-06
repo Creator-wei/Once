@@ -126,11 +126,11 @@ def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, sa
     if tb_log is not None:
         if model_type == "teacher":
             for cur_class in CLASS_NAMES:
-                Class_Ap[cur_class] = "{:.2f}".format(result_dict['AP_' + cur_class + '/' + 'overall'])
+                Class_Ap={cur_class:"{:.2f}".format(result_dict['AP_' + cur_class + '/' + 'overall'])}
             tb_log.add_scalars('eval/student/',Class_Ap,epoch_id)
         if model_type == "student":
             for cur_class in CLASS_NAMES:
-                Class_Ap[cur_class] = "{:.2f}".format(result_dict['AP_' + cur_class + '/' + 'overall'])
+                Class_Ap={cur_class:"{:.2f}".format(result_dict['AP_' + cur_class + '/' + 'overall'])}
             tb_log.add_scalars('eval/student/',Class_Ap,epoch_id)
     ###############################################Add_Tensorboard#########################################
     logger.info('Result is save to %s' % result_dir)
