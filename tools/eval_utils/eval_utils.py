@@ -121,30 +121,37 @@ def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, sa
     logger.info(result_str)
     ret_dict.update(result_dict)
     Class_Ap = {}
+    print("#############################################################################")
+    print(result_dict['AP_' + 'Car' + '/' + 'overall'])
+    print(result_dict['AP_' + 'Bus' + '/' + 'overall'])
+    print(result_dict['AP_' + 'Truck' + '/' + 'overall'])
+    print(result_dict['AP_' + 'Pedestrian' + '/' + 'overall'])
+    print(result_dict['AP_' + 'Cyclist' + '/' + 'overall'])
+    print("#############################################################################")  
     ###############################################Add_Tensorboard#########################################
     if tb_log is not None:
         if model_type == "teacher":
             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            print("{:.2f}".format(result_dict['AP_' + 'Car' + '/' + 'overall']))
-            print("{:.2f}".format(result_dict['AP_' + 'Bus' + '/' + 'overall']))
-            print("{:.2f}".format(result_dict['AP_' + 'Truck' + '/' + 'overall']))
-            print("{:.2f}".format(result_dict['AP_' + 'Pedestrian' + '/' + 'overall']))
-            print("{:.2f}".format(result_dict['AP_' + 'Cyclist' + '/' + 'overall']))
+            print(result_dict['AP_' + 'Car' + '/' + 'overall'])
+            print(result_dict['AP_' + 'Bus' + '/' + 'overall'])
+            print(result_dict['AP_' + 'Truck' + '/' + 'overall'])
+            print(result_dict['AP_' + 'Pedestrian' + '/' + 'overall'])
+            print(result_dict['AP_' + 'Cyclist' + '/' + 'overall'])
             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             tb_log.add_scalars('eval/teacher',
-                               {'Car':"{:.2f}".format(result_dict['AP_' + 'Car' + '/' + 'overall']),
-                               'Bus':"{:.2f}".format(result_dict['AP_' + 'Bus' + '/' + 'overall']),
-                               'Truck':"{:.2f}".format(result_dict['AP_' + 'Truck' + '/' + 'overall']),
-                               'Pedestrian':"{:.2f}".format(result_dict['AP_' + 'Pedestrian' + '/' + 'overall']),
-                               'Cyclist':"{:.2f}".format(result_dict['AP_' + 'Cyclist' + '/' + 'overall'])},
+                               {'Car':result_dict['AP_' + 'Car' + '/' + 'overall'],
+                               'Bus':result_dict['AP_' + 'Bus' + '/' + 'overall'],
+                               'Truck':result_dict['AP_' + 'Truck' + '/' + 'overall'],
+                               'Pedestrian':result_dict['AP_' + 'Pedestrian' + '/' + 'overall'],
+                               'Cyclist':result_dict['AP_' + 'Cyclist' + '/' + 'overall']},
                                epoch_id)
         if model_type == "student":
             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            print("{:.2f}".format(result_dict['AP_' + 'Car' + '/' + 'overall']))
-            print("{:.2f}".format(result_dict['AP_' + 'Bus' + '/' + 'overall']))
-            print("{:.2f}".format(result_dict['AP_' + 'Truck' + '/' + 'overall']))
-            print("{:.2f}".format(result_dict['AP_' + 'Pedestrian' + '/' + 'overall']))
-            print("{:.2f}".format(result_dict['AP_' + 'Cyclist' + '/' + 'overall']))
+            print(result_dict['AP_' + 'Car' + '/' + 'overall'])
+            print(result_dict['AP_' + 'Bus' + '/' + 'overall'])
+            print(result_dict['AP_' + 'Truck' + '/' + 'overall'])
+            print(result_dict['AP_' + 'Pedestrian' + '/' + 'overall'])
+            print(result_dict['AP_' + 'Cyclist' + '/' + 'overall'])
             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             tb_log.add_scalars('eval/student',
                                {'Car':"{:.2f}".format(result_dict['AP_' + 'Car' + '/' + 'overall']),
@@ -155,18 +162,18 @@ def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, sa
                                epoch_id)
         if model_type == "pretain":
             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            print("{:.2f}".format(result_dict['AP_' + 'Car' + '/' + 'overall']))
-            print("{:.2f}".format(result_dict['AP_' + 'Bus' + '/' + 'overall']))
-            print("{:.2f}".format(result_dict['AP_' + 'Truck' + '/' + 'overall']))
-            print("{:.2f}".format(result_dict['AP_' + 'Pedestrian' + '/' + 'overall']))
-            print("{:.2f}".format(result_dict['AP_' + 'Cyclist' + '/' + 'overall']))
+            print(result_dict['AP_' + 'Car' + '/' + 'overall'])
+            print(result_dict['AP_' + 'Bus' + '/' + 'overall'])
+            print(result_dict['AP_' + 'Truck' + '/' + 'overall'])
+            print(result_dict['AP_' + 'Pedestrian' + '/' + 'overall'])
+            print(result_dict['AP_' + 'Cyclist' + '/' + 'overall'])
             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             tb_log.add_scalars('eval/pretain',
-                               {'Car':"{:.2f}".format(result_dict['AP_' + 'Car' + '/' + 'overall']),
-                               'Bus':"{:.2f}".format(result_dict['AP_' + 'Bus' + '/' + 'overall']),
-                               'Truck':"{:.2f}".format(result_dict['AP_' + 'Truck' + '/' + 'overall']),
-                               'Pedestrian':"{:.2f}".format(result_dict['AP_' + 'Pedestrian' + '/' + 'overall']),
-                               'Cyclist':"{:.2f}".format(result_dict['AP_' + 'Cyclist' + '/' + 'overall'])},
+                               {'Car':result_dict['AP_' + 'Car' + '/' + 'overall'],
+                               'Bus':result_dict['AP_' + 'Bus' + '/' + 'overall'],
+                               'Truck':result_dict['AP_' + 'Truck' + '/' + 'overall'],
+                               'Pedestrian':result_dict['AP_' + 'Pedestrian' + '/' + 'overall'],
+                               'Cyclist':result_dict['AP_' + 'Cyclist' + '/' + 'overall']},
                                epoch_id)
         
     ###############################################Add_Tensorboard#########################################
