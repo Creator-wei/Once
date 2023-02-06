@@ -69,7 +69,7 @@ def eval_single_ckpt(model, test_loader, args, eval_output_dir, logger, epoch_id
     # start evaluation
     eval_utils.eval_one_epoch(
         cfg, model, test_loader, epoch_id, logger, dist_test=dist_test,
-        result_dir=eval_output_dir, save_to_file=args.save_to_file
+        result_dir=eval_output_dir, save_to_file=args.save_to_file,tb_log=None,model_type = None
     )
 
 
@@ -223,7 +223,7 @@ def main():
             args.start_epoch = max(cfg.OPTIMIZATION.NUM_EPOCHS - 10, 0)  # Only evaluate the last 10 epochs
             repeat_eval_ckpt(model, test_loader, args, eval_output_dir, logger, ckpt_dir, dist_test=dist_test,tb_log=None,model_type = None)
         else:
-            eval_single_ckpt(model, test_loader, args, eval_output_dir, logger, epoch_id, dist_test=dist_test)
+            eval_single_ckpt(model, test_loader, args, eval_output_dir, logger, epoch_id, dist_test=dist_test,tb_log=None,model_type = None)
 
 
 if __name__ == '__main__':
