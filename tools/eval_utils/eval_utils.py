@@ -8,7 +8,6 @@ import tqdm
 from pcdet.models import load_data_to_gpu
 from pcdet.utils import common_utils
 
-CLASS_NAMES = ['Car', 'Bus', 'Truck', 'Pedestrian', 'Cyclist']
 
 def statistics_info(cfg, ret_dict, metric, disp_dict):
     for cur_thresh in cfg.MODEL.POST_PROCESSING.RECALL_THRESH_LIST:
@@ -140,6 +139,15 @@ def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, sa
                                'Pedestrian':"{:.2f}".format(result_dict['AP_' + 'Pedestrian' + '/' + 'overall']),
                                'Cyclist':"{:.2f}".format(result_dict['AP_' + 'Cyclist' + '/' + 'overall'])},
                                epoch_id)
+        if model_type == "pretain":
+            tb_log.add_scalars('eval/student',
+                               {'Car':"{:.2f}".format(result_dict['AP_' + 'Car' + '/' + 'overall']),
+                               'Bus':"{:.2f}".format(result_dict['AP_' + 'Bus' + '/' + 'overall']),
+                               'Truck':"{:.2f}".format(result_dict['AP_' + 'Truck' + '/' + 'overall']),
+                               'Pedestrian':"{:.2f}".format(result_dict['AP_' + 'Pedestrian' + '/' + 'overall']),
+                               'Cyclist':"{:.2f}".format(result_dict['AP_' + 'Cyclist' + '/' + 'overall'])},
+                               epoch_id)
+        
     ###############################################Add_Tensorboard#########################################
     logger.info('Result is save to %s' % result_dir)
     logger.info('****************Evaluation done.*****************')

@@ -209,7 +209,9 @@ def main():
             eval_output_dir=eval_pretrain_dir,
             logger=logger,
             ckpt_dir=pretrain_ckpt_dir,
-            dist_test=dist_train
+            dist_test=dist_train,
+            tb_log=tb_log,
+            model_type = "pretain"
         )
         logger.info('**********************End evaluation for pre-training %s/%s(%s)**********************' %
                     (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
