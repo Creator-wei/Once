@@ -157,11 +157,11 @@ def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, sa
             print(result_dict['AP_' + 'Cyclist' + '/' + 'overall'])
             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             tb_log.add_scalars('eval/student',
-                               {'Car':"{:.2f}".format(result_dict['AP_' + 'Car' + '/' + 'overall']),
-                               'Bus':"{:.2f}".format(result_dict['AP_' + 'Bus' + '/' + 'overall']),
-                               'Truck':"{:.2f}".format(result_dict['AP_' + 'Truck' + '/' + 'overall']),
-                               'Pedestrian':"{:.2f}".format(result_dict['AP_' + 'Pedestrian' + '/' + 'overall']),
-                               'Cyclist':"{:.2f}".format(result_dict['AP_' + 'Cyclist' + '/' + 'overall'])},
+                               {'Car':result_dict['AP_' + 'Car' + '/' + 'overall'],
+                               'Bus':result_dict['AP_' + 'Bus' + '/' + 'overall'],
+                               'Truck':result_dict['AP_' + 'Truck' + '/' + 'overall'],
+                               'Pedestrian':result_dict['AP_' + 'Pedestrian' + '/' + 'overall'],
+                               'Cyclist':result_dict['AP_' + 'Cyclist' + '/' + 'overall']},
                                epoch_id)
         if model_type == "pretain":
             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")

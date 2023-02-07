@@ -175,6 +175,7 @@ def main():
         )
         logger.info('**********************Start pre-training %s/%s(%s)**********************'
                     % (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
+        '''
         train_model(
             pretrain_model,
             pretrain_optimizer,
@@ -194,6 +195,7 @@ def main():
             max_ckpt_save_num=args.max_ckpt_save_num,
             merge_all_iters_to_one_epoch=args.merge_all_iters_to_one_epoch
         )
+        '''
         logger.info('**********************End pre-training %s/%s(%s)**********************\n\n\n'
                     % (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
 
@@ -202,6 +204,7 @@ def main():
         eval_pretrain_dir = output_dir / 'eval' / 'eval_with_pretraining'
         eval_pretrain_dir.mkdir(parents=True, exist_ok=True)
         args.start_epoch = cfg.OPTIMIZATION.PRETRAIN.NUM_EPOCHS - 10
+        '''
         repeat_eval_ckpt(
             model=pretrain_model.module if dist_train else pretrain_model,
             test_loader=dataloaders['test'],
@@ -213,6 +216,7 @@ def main():
             tb_log=tb_log,
             model_type = "pretain"
         )
+        '''
         logger.info('**********************End evaluation for pre-training %s/%s(%s)**********************' %
                     (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
 
@@ -274,6 +278,7 @@ def main():
     logger.info('**********************Start ssl-training %s/%s(%s)**********************'
                 % (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
     #"""
+    '''
     train_ssl_model(
         teacher_model = teacher_model,
         student_model = student_model,
@@ -296,7 +301,7 @@ def main():
         merge_all_iters_to_one_epoch=args.merge_all_iters_to_one_epoch,
         dist = dist_train
     )
-    #"""
+    '''
 
     logger.info('**********************End ssl-training %s/%s(%s)**********************\n\n\n'
                 % (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
