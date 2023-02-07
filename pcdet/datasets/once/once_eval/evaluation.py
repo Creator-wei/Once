@@ -123,14 +123,11 @@ def get_evaluation_results(gt_annos, pred_annos, classes,
     ret_dict = {}
 
     ret_str = "\n|AP@%-9s|" % (str(num_pr_points))
-    #the  first line
     for diff_type in difficulty_types:
         ret_str += '%-12s|' % diff_type
     ret_str += '\n'
-    #different class
     for cls_idx, cur_class in enumerate(classes):
         ret_str += "|%-12s|" % cur_class
-        #Different distence
         for diff_idx in range(num_difficulties):
             diff_type = difficulty_types[diff_idx]
             key = 'AP_' + cur_class + '/' + diff_type
@@ -139,7 +136,6 @@ def get_evaluation_results(gt_annos, pred_annos, classes,
             ret_str += "%-12.2f|" % ap_score
         ret_str += "\n"
     mAP = np.mean(AP, axis=0)
-    #AP
     ret_str += "|%-12s|" % 'mAP'
     for diff_idx in range(num_difficulties):
         diff_type = difficulty_types[diff_idx]

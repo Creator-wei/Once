@@ -388,7 +388,7 @@ class ONCEDataset(DatasetTemplate):
 def create_once_infos(dataset_cfg, class_names, data_path, save_path, workers=4):
     dataset = ONCEDataset(dataset_cfg=dataset_cfg, class_names=class_names, root_path=data_path, training=False)
 
-    splits = ['train', 'val', 'test', 'raw_small']
+    splits = ['train', 'val', 'test', 'raw_small', 'raw_medium', 'raw_large']
     ignore = ['test']
 
     print('---------------Start to generate data infos---------------')
