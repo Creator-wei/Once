@@ -86,9 +86,7 @@ class SemiSECONDIoU(Detector3DTemplate):
                 param.requires_grad = False
         """
 
-    #teacher_model(ud_teacher_batch_dict) in /iou_match_3d.py
-
-    def forward(self, batch_dict, Using_acc=None, mask=None):
+    def forward(self, batch_dict):
 
         # origin: (training, return loss) (testing, return final boxes)
         if self.model_type == 'origin':
@@ -118,7 +116,7 @@ class SemiSECONDIoU(Detector3DTemplate):
                 batch_dict = cur_module(batch_dict)
             if self.training:
                 if 'gt_boxes' in batch_dict:
-                    loss, tb_dict, disp_dict = self.get_training_loss(Using_acc, mask)
+                    loss, tb_dict, disp_dict = self.get_training_loss()
                     ret_dict = {
                         'loss': loss
                     }
@@ -131,9 +129,11 @@ class SemiSECONDIoU(Detector3DTemplate):
 
         else:
             raise Exception('Unsupprted model type')
-    def get_training_loss(self, Using_acc=None, mask=None):
+
+    def get_training_loss(self):
         disp_dict = {}
-        loss_rpn, tb_dict = self.dense_head.get_loss(Using_acc=Using_acc,mask=mask)
+
+        loss_rpn, tb_dict = self.dense_head.get_loss()
         tb_dict = {
             'loss_rpn': loss_rpn.item(),
             **tb_dict
