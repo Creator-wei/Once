@@ -12,10 +12,22 @@ We provide the dataset API and some reproduced models on the ONCE dataset.
 
 ## Installation
 The repo is based on OpenPCDet. If you have already installed OpenPCDet (version >= v0.3.0), you can skip this part and use the existing environment, but remember to re-compile CUDA operators by
-```shell
+
+```
 pip install -r requirements.txt 
 python setup.py develop
 ```
+
+Init Conda
+
+```
+conda create --name Once python=3.6
+conda install pytorch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0 cudatoolkit=11.1 -c pytorch -c conda-forge
+conda install cudnn
+conda install scipy
+conda install opencv
+```
+
 If you haven't installed OpenPCDet, please refer to [INSTALL.md](docs/INSTALL.md) for the installation.
 
 ## Getting Started
@@ -57,9 +69,9 @@ python -m pcdet.datasets.once.once_dataset --func create_once_infos --cfg_file t
 ```
 2. Traing with signal GPU
 ```
-
+ python semi_train.py --cfg_file ./cfgs/once_models/semi_learning_models/ioumatch3d_second_small.yaml
 ```
 3. Traing with mutil GPUs
 ```
-qqq
+bash scripts/dist_train.sh 2 --cfg_file ./cfgs/once_models/semi_learning_models/ioumatch3d_second_small.yaml
 ```
