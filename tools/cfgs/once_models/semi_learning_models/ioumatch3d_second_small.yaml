@@ -54,7 +54,7 @@ OPTIMIZATION:
         NAME: 3DIoUMatch
         LD_BATCH_SIZE_PER_GPU: 1
         UD_BATCH_SIZE_PER_GPU: 4
-        NUM_EPOCHS: 1 # 5 epoch
+        NUM_EPOCHS: 5 # 5 epoch
 
         TEACHER:
             NUM_ITERS_PER_UPDATE: -1
