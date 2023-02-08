@@ -192,6 +192,9 @@ def iou_match_3d(teacher_model, student_model,
         #unsupervised          
         #############################################################################################################
         #_, ud_ret_dict, tb_dict, disp_dict = student_model(ud_student_batch_dict, Using_acc=True, mask= mask)
+        print("^^^^^^^^^^^^^^^^^^^ud_student_batch_dict^^^^^^^^^^^^^^^^^^^^")
+        print(ud_student_batch_dict.size())
+        print("^^^^^^^^^^^^^^^^^^^ud_student_batch_dict^^^^^^^^^^^^^^^^^^^^") 
         _, ud_ret_dict, tb_dict, disp_dict = student_model(ud_student_batch_dict,Using_acc=True, mask=Mask_acc)
     else:
         (_, ld_ret_dict, _, _), (_, ud_ret_dict, tb_dict, disp_dict) = student_model(ld_student_batch_dict, ud_student_batch_dict)

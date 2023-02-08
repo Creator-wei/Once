@@ -137,7 +137,7 @@ def main():
         logger=logger,
         merge_all_iters_to_one_epoch=args.merge_all_iters_to_one_epoch,
     )
-
+    '''
     # --------------------------------stage I pretraining---------------------------------------
     logger.info('************************Stage I Pretraining************************')
     pretrain_model = build_network(model_cfg=cfg.MODEL, num_class=len(cfg.CLASS_NAMES), dataset=datasets['pretrain'])
@@ -219,7 +219,7 @@ def main():
         
         logger.info('**********************End evaluation for pre-training %s/%s(%s)**********************' %
                     (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
-
+    '''
     # --------------------------------stage II SSL training---------------------------------------
     logger.info('************************Stage II SSL training************************')
     teacher_model = build_network(model_cfg=cfg.MODEL, num_class=len(cfg.CLASS_NAMES), dataset=datasets['labeled'])
@@ -236,7 +236,7 @@ def main():
 
     # only update student model by gradient descent, teacher model are updated by EMA
     student_optimizer = build_optimizer(student_model, cfg.OPTIMIZATION.SEMI_SUP_LEARNING.STUDENT)
-
+    '''
     if cfg.get('USE_PRETRAIN_MODEL', False):
         pretrained_model = cfg.PRETRAIN_CKPT
         if args.runs_on == 'cloud':
@@ -248,7 +248,7 @@ def main():
 
     teacher_model.load_params_from_file(filename=pretrained_model, to_cpu=dist, logger=logger)
     student_model.load_params_from_file(filename=pretrained_model, to_cpu=dist, logger=logger)
-
+    '''
     if dist_train:
         student_model = DistStudent(student_model) # add wrapper for dist training
         student_model = nn.parallel.DistributedDataParallel(student_model, device_ids=[cfg.LOCAL_RANK % torch.cuda.device_count()])

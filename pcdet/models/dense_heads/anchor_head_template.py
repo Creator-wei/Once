@@ -233,7 +233,7 @@ class AnchorHeadTemplate(nn.Module):
         '''
         cls_loss_src = self.cls_loss_func(cls_preds, one_hot_targets, weights=cls_weights)  # [N, M]
         print("-------------------cls_loss_src-------------------")
-        print(cls_loss_src)
+        print(cls_loss_src.size())
         print("-------------------cls_loss_src-------------------")
         #torch.Size([4, 353440, 5])
         if Using_acc:
