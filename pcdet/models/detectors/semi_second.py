@@ -117,7 +117,7 @@ class SemiSECONDIoU(Detector3DTemplate):
             for cur_module in self.module_list:
                 batch_dict = cur_module(batch_dict)
             print("$$$$$$$$$$$$$$$$$$$$$$$$$$batch_dict$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-            print(batch_dict.size())
+            print(batch_dict)
             print("$$$$$$$$$$$$$$$$$$$$$$$$$$batch_dict$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
             if self.training:
                 if 'gt_boxes' in batch_dict:
