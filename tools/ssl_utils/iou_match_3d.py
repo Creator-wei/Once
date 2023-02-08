@@ -75,8 +75,8 @@ def iou_match_3d(teacher_model, student_model,
     teacher_boxes = reverse_transform(teacher_boxes, ud_teacher_batch_dict, ud_student_batch_dict)
     gt_boxes = construct_pseudo_label(teacher_boxes)
     ud_student_batch_dict['gt_boxes'] = gt_boxes
-    print("------------------------ud_student_batch_dict-------------------------------")
-    print(ud_student_batch_dict)
+    print("------------------------ud_student_batch_dict['gt_boxes']-------------------------------")
+    print(ud_student_batch_dict['gt_boxes'].size())
     print("----------------------------------------------------------------------------")
     if not dist:
         _, ld_ret_dict, _, _ = student_model(ld_student_batch_dict)
