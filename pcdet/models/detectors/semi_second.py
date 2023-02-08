@@ -116,9 +116,6 @@ class SemiSECONDIoU(Detector3DTemplate):
         elif self.model_type == 'student':
             for cur_module in self.module_list:
                 batch_dict = cur_module(batch_dict)
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$batch_dict$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-            print(batch_dict)
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$batch_dict$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
             if self.training:
                 if 'gt_boxes' in batch_dict:
                     loss, tb_dict, disp_dict = self.get_training_loss(Using_acc, mask)
