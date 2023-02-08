@@ -85,18 +85,19 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         final_boxes = final_boxes[zero_mask]
         final_labels = final_labels[zero_mask]
         final_scores = final_scores[zero_mask]
-        '''
-        print("-----------------------Final---------------------")
-        print(final_boxes.size())
-        print(final_labels.size())
-        print(final_scores.size())
-        print("-------------------------------------------------")
-        '''
+        
+
         record_dict = {
             'pred_boxes': final_boxes,
             'pred_scores': final_scores,
             'pred_labels': final_labels,
         }
+        print("-----------------------Final---------------------")
+        print(final_boxes.size())
+        print(final_labels.size())
+        print(final_scores.size())
+        print("-------------------------------------------------")
+        
         pred_dicts.append(record_dict)
                 #index is in different batch
         ######################################################################################
@@ -192,9 +193,7 @@ def iou_match_3d(teacher_model, student_model,
         #unsupervised          
         #############################################################################################################
         #_, ud_ret_dict, tb_dict, disp_dict = student_model(ud_student_batch_dict, Using_acc=True, mask= mask)
-        print("^^^^^^^^^^^^^^^^^^^ud_student_batch_dict^^^^^^^^^^^^^^^^^^^^")
-        print(ud_student_batch_dict.size())
-        print("^^^^^^^^^^^^^^^^^^^ud_student_batch_dict^^^^^^^^^^^^^^^^^^^^") 
+
         _, ud_ret_dict, tb_dict, disp_dict = student_model(ud_student_batch_dict,Using_acc=True, mask=Mask_acc)
     else:
         (_, ld_ret_dict, _, _), (_, ud_ret_dict, tb_dict, disp_dict) = student_model(ld_student_batch_dict, ud_student_batch_dict)
