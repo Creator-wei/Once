@@ -137,7 +137,7 @@ def main():
         logger=logger,
         merge_all_iters_to_one_epoch=args.merge_all_iters_to_one_epoch,
     )
-
+    '''
     # --------------------------------stage I pretraining---------------------------------------
     logger.info('************************Stage I Pretraining************************')
     pretrain_model = build_network(model_cfg=cfg.MODEL, num_class=len(cfg.CLASS_NAMES), dataset=datasets['pretrain'])
@@ -219,7 +219,7 @@ def main():
         
         logger.info('**********************End evaluation for pre-training %s/%s(%s)**********************' %
                     (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
-
+    '''
     # --------------------------------stage II SSL training---------------------------------------
     logger.info('************************Stage II SSL training************************')
     teacher_model = build_network(model_cfg=cfg.MODEL, num_class=len(cfg.CLASS_NAMES), dataset=datasets['labeled'])
