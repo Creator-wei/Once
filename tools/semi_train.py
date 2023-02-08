@@ -236,7 +236,7 @@ def main():
 
     # only update student model by gradient descent, teacher model are updated by EMA
     student_optimizer = build_optimizer(student_model, cfg.OPTIMIZATION.SEMI_SUP_LEARNING.STUDENT)
-
+    '''
     if cfg.get('USE_PRETRAIN_MODEL', False):
         pretrained_model = cfg.PRETRAIN_CKPT
         if args.runs_on == 'cloud':
@@ -248,7 +248,7 @@ def main():
 
     teacher_model.load_params_from_file(filename=pretrained_model, to_cpu=dist, logger=logger)
     student_model.load_params_from_file(filename=pretrained_model, to_cpu=dist, logger=logger)
-
+    '''
     if dist_train:
         student_model = DistStudent(student_model) # add wrapper for dist training
         student_model = nn.parallel.DistributedDataParallel(student_model, device_ids=[cfg.LOCAL_RANK % torch.cuda.device_count()])
