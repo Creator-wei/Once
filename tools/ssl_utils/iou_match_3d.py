@@ -53,11 +53,6 @@ def iou_match_3d_filter(batch_dict, cfgs):
             'pred_labels': final_labels,
         }
         pred_dicts.append(record_dict)
-        print("---------------------Final--------------------------")
-        print(final_boxes.size())
-        print(final_labels.size())
-        print(final_scores.size())
-        print("---------------------Final--------------------------")
     return pred_dicts
 
 def iou_match_3d(teacher_model, student_model,
@@ -80,7 +75,9 @@ def iou_match_3d(teacher_model, student_model,
     teacher_boxes = reverse_transform(teacher_boxes, ud_teacher_batch_dict, ud_student_batch_dict)
     gt_boxes = construct_pseudo_label(teacher_boxes)
     ud_student_batch_dict['gt_boxes'] = gt_boxes
-
+    print("------------------------ud_student_batch_dict-------------------------------")
+    print(ud_student_batch_dict)
+    print("----------------------------------------------------------------------------")
     if not dist:
         _, ld_ret_dict, _, _ = student_model(ld_student_batch_dict)
         _, ud_ret_dict, tb_dict, disp_dict = student_model(ud_student_batch_dict)
