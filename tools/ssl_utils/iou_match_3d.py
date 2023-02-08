@@ -53,7 +53,11 @@ def iou_match_3d_filter(batch_dict, cfgs):
             'pred_labels': final_labels,
         }
         pred_dicts.append(record_dict)
-
+        print("---------------------Final--------------------------")
+        print(final_boxes.size())
+        print(final_labels.size())
+        print(final_scores.size())
+        print("---------------------Final--------------------------")
     return pred_dicts
 
 def iou_match_3d(teacher_model, student_model,
