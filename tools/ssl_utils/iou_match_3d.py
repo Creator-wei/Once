@@ -180,6 +180,7 @@ def iou_match_3d(teacher_model, student_model,
     gt_boxes = construct_pseudo_label(teacher_boxes)
 
     #ud_student_batch_dict is pseudo_label
+    #The gt_boxes is include the boxes size, which is(xmin,ymin,zmin,xmax,ymax,zmax)
     ud_student_batch_dict['gt_boxes'] = gt_boxes
     #Dist == False
     Mask_acc=(classwise_acc+iouwise_acc)/2
