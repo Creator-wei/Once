@@ -18,7 +18,7 @@ class Detector3DTemplate(nn.Module):
         self.dataset = dataset
         self.class_names = dataset.class_names
         self.register_buffer('global_step', torch.LongTensor(1).zero_())
-
+        #The sequence of train
         self.module_topology = [
             'vfe', 'backbone_3d', 'map_to_bev_module', 'backbone_2d',
             'dense_head', 'pfe', 'point_head', 'roi_head'
