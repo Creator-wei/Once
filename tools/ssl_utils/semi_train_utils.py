@@ -128,7 +128,9 @@ def train_ssl_one_epoch(teacher_model, student_model, optimizer, labeled_loader,
         disp_dict.update({'loss': loss.item(), 'lr': cur_lr})
 
         # EMA Teacher
+        #NUM_ITERS_PER_UPDATE: -1
         if ssl_cfg.TEACHER.NUM_ITERS_PER_UPDATE != -1:
+            #EMA_EPOCH: [15, 20]
             ema_rampup_start, ema_start = ssl_cfg.TEACHER.EMA_EPOCH
             assert ema_rampup_start <= ema_start
             if epoch_id < ema_rampup_start:
@@ -267,7 +269,8 @@ def save_checkpoint(state, filename='checkpoint'):
 
     filename = '{}.pth'.format(filename)
     torch.save(state, filename)
-
+    
+#Update the ema paramters
 def update_ema_variables(model, ema_model, alpha, global_step):
     # Use the true average until the exponential average is more correct
     alpha = min(1 - 1 / (global_step + 2), alpha)
