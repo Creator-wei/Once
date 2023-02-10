@@ -260,6 +260,7 @@ def main():
     """
     Notes: we found for pseudo labels, teacher_model.eval() is better; for EMA update and consistency, teacher_model.train() is better
     """
+    #NUM_ITERS_PER_UPDATE: 1
     if cfg.OPTIMIZATION.SEMI_SUP_LEARNING.TEACHER.NUM_ITERS_PER_UPDATE == -1: # for pseudo label
         teacher_model.eval() # Set to eval mode to avoid BN update and dropout
     else: # for EMA teacher with consistency

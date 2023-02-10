@@ -59,7 +59,7 @@ OPTIMIZATION:
         CLASS_NAMES: ['Car', 'Bus', 'Truck', 'Pedestrian', 'Cyclist']
         ##########################################################################
         TEACHER:
-            NUM_ITERS_PER_UPDATE: -1
+            #NUM_ITERS_PER_UPDATE: -1
             ######################################################################
             CLS_SCORE_THRESH: [0.1, 0.1, 0.1, 0.1, 0.1]
             ######################################################################
@@ -67,6 +67,11 @@ OPTIMIZATION:
             ##########################################################################
             CLASS_NAMES: ['Car', 'Bus', 'Truck', 'Pedestrian', 'Cyclist']
             ##########################################################################
+            NUM_ITERS_PER_UPDATE: 1
+            EMA_EPOCH: [-1, NUM_EPOCHS]
+            RAMPUP_EMA_MOMENTUM: 0.99
+            EMA_MOMENTUM: 0.999
+
 
             NMS_CONFIG:
                 MULTI_CLASSES_NMS: False
