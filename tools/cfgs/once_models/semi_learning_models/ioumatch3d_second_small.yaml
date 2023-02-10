@@ -54,7 +54,7 @@ OPTIMIZATION:
         NAME: 3DIoUMatch
         LD_BATCH_SIZE_PER_GPU: 1
         UD_BATCH_SIZE_PER_GPU: 4
-        NUM_EPOCHS: 25 # 5 epochz
+        NUM_EPOCHS: 30 # 5 epochz
         ##########################################################################
         CLASS_NAMES: ['Car', 'Bus', 'Truck', 'Pedestrian', 'Cyclist']
         ##########################################################################
