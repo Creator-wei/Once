@@ -66,6 +66,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
             Using_Cls=True
         )
         '''
+        #NMS filiter in different class
         selected, selected_scores, scores_mask, selected_label_cls= class_agnostic_nms_class(
             box_scores=nms_scores, box_preds=box_preds,
             nms_config=cfgs.NMS_CONFIG,
@@ -81,6 +82,7 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
         final_boxes = box_preds[selected]
 
         # added filtering boxes with size 0
+        #if bounding box is have legth, width and height
         zero_mask = (final_boxes[:, 3:6] != 0).all(1)
         final_boxes = final_boxes[zero_mask]
         final_labels = final_labels[zero_mask]
@@ -154,7 +156,10 @@ def iou_match_3d(teacher_model, student_model,
     print("iouwise_acc:")
     print(iouwise_acc)
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~ACC~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-
+    #restart the slect_label in each iteration
+    #如果每个iteration都更新的话可能会造成loss振荡
+    #去除这个可以保证在每个epoch更行loss的比重，并且select会在每个iteration中累加
+    #但是如果累加会有一个问题，训练效果不好的比例会越来越大
     for i in range(len(cfgs.CLASS_NAMES)):
         selected_label_cls[i+1]=0
         selected_label_iou[i+1]=0

@@ -44,11 +44,13 @@ def class_agnostic_nms_class(box_scores, box_preds, nms_config, classwise_acc=No
     if box_scores.shape[0] > 0:
         box_scores_nms, indices = torch.topk(box_scores, k=min(nms_config.NMS_PRE_MAXSIZE, box_scores.shape[0]))
         boxes_for_nms = box_preds[indices]
+        #NMS_THRESH: 0.01
         keep_idx, selected_scores = getattr(iou3d_nms_utils, nms_config.NMS_TYPE)(
                 boxes_for_nms[:, 0:7], box_scores_nms, nms_config.NMS_THRESH, **nms_config
         )
         selected = indices[keep_idx[:nms_config.NMS_POST_MAXSIZE]]
-
+        
+    #transform idx from score_mask to box_scores(src_box_scores)
     if score_thresh is not None:
         original_idxs = scores_mask.nonzero().view(-1)
         selected = original_idxs[selected]
@@ -67,11 +69,14 @@ def class_agnostic_nms(box_scores, box_preds, nms_config, score_thresh=None):
 
     selected = []
     if box_scores.shape[0] > 0:
+        #NMS_PRE_MAXSIZE: 4096
+        #like be a sequence of box_scores
         box_scores_nms, indices = torch.topk(box_scores, k=min(nms_config.NMS_PRE_MAXSIZE, box_scores.shape[0]))
         boxes_for_nms = box_preds[indices]
         keep_idx, selected_scores = getattr(iou3d_nms_utils, nms_config.NMS_TYPE)(
                 boxes_for_nms[:, 0:7], box_scores_nms, nms_config.NMS_THRESH, **nms_config
         )
+        #NMS_POST_MAXSIZE: 500
         selected = indices[keep_idx[:nms_config.NMS_POST_MAXSIZE]]
 
     if score_thresh is not None:
