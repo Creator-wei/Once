@@ -75,18 +75,21 @@ def train_ssl_one_epoch(teacher_model, student_model, optimizer, labeled_loader,
                     if dist:
                         #if rank == 0:
                         update_ema_variables(student_model.module.onepass, teacher_model.module.onepass, ssl_cfg.TEACHER.RAMPUP_EMA_MOMENTUM, accumulated_iter)
+                        print("!!!!!!!!!!!!!!!!!!!!!!Using EMA to teacher_model____variables______Dist!!!!!!!!!!!!!!!!!!!!!!")
                     else:
                         update_ema_variables(student_model, teacher_model, ssl_cfg.TEACHER.RAMPUP_EMA_MOMENTUM, accumulated_iter)
-                        print("!!!!!!!!!!!!!!!!!!!!!!Using EMA to teacher_model!!!!!!!!!!!!!!!!!!!!!!")
+                        print("!!!!!!!!!!!!!!!!!!!!!!Using EMA to teacher_model____variables!!!!!!!!!!!!!!!!!!!!!!")
             elif epoch_id >= ema_start:
                 if accumulated_iter % ssl_cfg.TEACHER.NUM_ITERS_PER_UPDATE == 0:
                     if dist:
                         #if rank == 0:
                         update_ema_variables_with_fixed_momentum(student_model.module.onepass, teacher_model.module.onepass, ssl_cfg.TEACHER.EMA_MOMENTUM)
+                        print("!!!!!!!!!!!!!!!!!!!!!!Using EMA to teacher_model____fixed_momentum______Dist!!!!!!!!!!!!!!!!!!!!!!")
                     else:
                         update_ema_variables_with_fixed_momentum(student_model, teacher_model, ssl_cfg.TEACHER.EMA_MOMENTUM)
-                        print("!!!!!!!!!!!!!!!!!!!!!!Using EMA to teacher_model!!!!!!!!!!!!!!!!!!!!!!")
+                        print("!!!!!!!!!!!!!!!!!!!!!!Using EMA to teacher_model____fixed_momentum!!!!!!!!!!!!!!!!!!!!!!")
             else:
+                print("!!!!!!!!!!!!!!!!!!!!!!UnUsing EMA!!!!!!!!!!!!!!!!!!!!!!")
                 raise Exception('Impossible condition for EMA update')
 
         # log to console and tensorboard
