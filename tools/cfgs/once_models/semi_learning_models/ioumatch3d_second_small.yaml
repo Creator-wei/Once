@@ -57,7 +57,13 @@ OPTIMIZATION:
         NUM_EPOCHS: 30 # 5 epoch
 
         TEACHER:
-            NUM_ITERS_PER_UPDATE: -1
+            #NUM_ITERS_PER_UPDATE: -1
+
+            NUM_ITERS_PER_UPDATE: 1
+            EMA_EPOCH: [-1, 30]
+            RAMPUP_EMA_MOMENTUM: 0.99
+            EMA_MOMENTUM: 0.999
+
 
             CLS_SCORE_THRESH: 0.1
             IOU_SCORE_THRESH: [0.1, 0.1, 0.1, 0.1, 0.1]
