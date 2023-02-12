@@ -94,12 +94,13 @@ def iou_match_3d_filter(batch_dict, cfgs, iouwise_acc, classwise_acc,selected_la
             'pred_scores': final_scores,
             'pred_labels': final_labels,
         }
+        '''
         print("-----------------------Final---------------------")
         print(final_boxes.size())
         print(final_labels.size())
         print(final_scores.size())
         print("-------------------------------------------------")
-        
+        '''
         pred_dicts.append(record_dict)
                 #index is in different batch
         ######################################################################################
@@ -146,6 +147,7 @@ def iou_match_3d(teacher_model, student_model,
     #if max(pseudo_counter_cls.values()) < len(batch_dict):  # not all(5w) -1
     for i in range(len(cfgs.CLASS_NAMES)):
         iouwise_acc[i] = 1.5-0.5*(selected_label_iou[i+1] / max(selected_label_iou.values()))  # 每个类别/max
+    
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~select~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print(selected_label_cls)
     print(selected_label_iou)
@@ -156,14 +158,16 @@ def iou_match_3d(teacher_model, student_model,
     print("iouwise_acc:")
     print(iouwise_acc)
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~ACC~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    
     #restart the slect_label in each iteration
     #如果每个iteration都更新的话可能会造成loss振荡
     #去除这个可以保证在每个epoch更行loss的比重，并且select会在每个iteration中累加
     #但是如果累加会有一个问题，训练效果不好的比例会越来越大
+    '''
     for i in range(len(cfgs.CLASS_NAMES)):
         selected_label_cls[i+1]=0
         selected_label_iou[i+1]=0
-
+    '''
     #Dist == False
     if not dist:
         #############################################################################################################

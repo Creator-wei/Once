@@ -232,24 +232,30 @@ class AnchorHeadTemplate(nn.Module):
         print("-------------------class-------------------")
         '''
         cls_loss_src = self.cls_loss_func(cls_preds, one_hot_targets, weights=cls_weights)  # [N, M]
+        '''
         print("-------------------cls_loss_src-------------------")
         print(cls_loss_src.size())
         print("-------------------cls_loss_src-------------------")
+        '''
         #torch.Size([4, 353440, 5])
         if Using_acc:
             device = cls_loss_src.device
             loss_mask=torch.tensor(mask)
             loss_mask=loss_mask.view(1,1,5).expand_as(cls_loss_src).to(device)
+            '''
             print("^^^^^^^^^^^^^^^^^^Mask^^^^^^^^^^^^^^^^^^")
             print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             print(loss_mask)
             print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             print("^^^^^^^^^^^^^^^^^^Mask^^^^^^^^^^^^^^^^^^")
+            '''
             cls_loss_src = cls_loss_src * loss_mask
+            '''
             print("After process of loss=")
             print(cls_loss_src)
             print("Batch_Size=")
             print(batch_size)
+            '''
         cls_loss = cls_loss_src.sum() / batch_size
 
         cls_loss = cls_loss * self.model_cfg.LOSS_CONFIG.LOSS_WEIGHTS['cls_weight']
@@ -365,12 +371,14 @@ class AnchorHeadTemplate(nn.Module):
         #定位损失和反向损失
         box_loss, tb_dict_box = self.get_box_reg_layer_loss()
         tb_dict.update(tb_dict_box)
+        '''
         print("^^^^^^^^^^^^^^^^^^Final_Loss^^^^^^^^^^^^^^^^^^^^")
         print("cls_loss=")
         print(cls_loss)
         print("box_loss=")
         print(box_loss)
         print("^^^^^^^^^^^^^^^^^^Final_Loss^^^^^^^^^^^^^^^^^^^^")
+        '''
         if self.model_cfg.get('USE_BEV_SEG', False):
             seg_loss, tb_dict_seg = self.get_seg_layer_loss()
             tb_dict.update(tb_dict_seg)
