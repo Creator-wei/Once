@@ -107,7 +107,38 @@ Method1：
   * 感觉loss这个参数范围不好界定，目前只能放在1.5-1之间
 
 3. 当前模型没有使用MEA对teacher_model进行参数调整，teacher的参数还是强烈依赖鱼pre_train
-  * 在dev_mea中经行了MEA的尝试，没有没结果
+  * 在dev_mea中经行了MEA的尝试，结果远超不是用ema的结果
   * 很奇怪的一点，作者说使用MEA效果不好，等我试一试
 
 
+# Contrast of methods
+## Not using EMA
+```
+Epoch=30
+Prtrain=1
+```
+
+| Method                | Car   | Bus   | Truck  | Pedestrain | Cyclist | mAP   | Description |
+| :-------------:       | :---: | :---: | :---:  | :---:      | :---:   | :---: | :---:       |
+| Baseline_30epoch_Out  | 45.02 | 8.82  | 1.72   | 5.56       | 15.80   | 15.38 |
+| Flex_Loss_30epoch_Out | 45.09 | 13.84 | 1.36   | 4.04       | 12.88   | 15.44 |
+
+## Using EMA(Student_Model)
+```
+Epoch=30
+Prtrain=1
+```
+| Method                | Car   | Bus   | Truck  | Pedestrain | Cyclist | mAP   | Description |
+| :-------------:       | :---: | :---: | :---:  | :---:      | :---:   | :---: | :---:       |
+| Baseline_Loss_Ema_out | 57.12 | 15.89 | 3.49   | 14.50      | 16.30   | 21.46 |
+| Flex_Loss_Ema_Out     | 59.52 | 27.06 | 4.09   | 12.74      | 16.11   | 23.91 | 每个iteration都更新loss的参数
+## Adjust method(Student_Model)
+```
+Epoch=25
+Prtrain=20
+```
+| Method                | Vehicle   | Pedestrian   | Cyclist  | mAP     | Description |
+| :-------------:       | :---:     | :---:        | :---:    | :---:   | :---:       |
+| Baseline              | 51.07     | 19.26        | 38.22    | 42.14   | 这里的Vehicle是使用均加的，可能不对，因为本身有5个类|
+| Plan_A                | 64.96     | 19.48        | 43.89    | 42.78   | 给threshold增加T       |
+| Plan_B                | 63.73     | 19.50        | 41.54    | 41.59   | 给Loss增加了T |
