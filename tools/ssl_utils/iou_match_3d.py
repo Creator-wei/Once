@@ -163,11 +163,11 @@ def iou_match_3d(teacher_model, student_model,
     #如果每个iteration都更新的话可能会造成loss振荡
     #去除这个可以保证在每个epoch更行loss的比重，并且select会在每个iteration中累加
     #但是如果累加会有一个问题，训练效果不好的比例会越来越大
-    '''
+    
     for i in range(len(cfgs.CLASS_NAMES)):
         selected_label_cls[i+1]=0
         selected_label_iou[i+1]=0
-    '''
+    
     #Dist == False
     if not dist:
         #############################################################################################################
