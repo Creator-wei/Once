@@ -311,7 +311,7 @@ def main():
                 (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
     eval_ssl_dir = output_dir / 'eval' / 'eval_with_student_model'
     eval_ssl_dir.mkdir(parents=True, exist_ok=True)
-    args.start_epoch = cfg.OPTIMIZATION.SEMI_SUP_LEARNING.NUM_EPOCHS - 25
+    args.start_epoch = cfg.OPTIMIZATION.SEMI_SUP_LEARNING.NUM_EPOCHS 
     repeat_eval_ckpt(
         model = student_model.module.onepass if dist_train else student_model,
         test_loader = dataloaders['test'],
@@ -330,7 +330,7 @@ def main():
                 (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
     eval_ssl_dir = output_dir / 'eval' / 'eval_with_teacher_model'
     eval_ssl_dir.mkdir(parents=True, exist_ok=True)
-    args.start_epoch = cfg.OPTIMIZATION.SEMI_SUP_LEARNING.NUM_EPOCHS - 25
+    args.start_epoch = cfg.OPTIMIZATION.SEMI_SUP_LEARNING.NUM_EPOCHS 
     if dist_train:
         teacher_model.module.onepass.set_model_type('origin') # ret filtered boxes
     else:
