@@ -175,7 +175,7 @@ def main():
         )
         logger.info('**********************Start pre-training %s/%s(%s)**********************'
                     % (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
-        
+        '''
         train_model(
             pretrain_model,
             pretrain_optimizer,
@@ -195,7 +195,7 @@ def main():
             max_ckpt_save_num=args.max_ckpt_save_num,
             merge_all_iters_to_one_epoch=args.merge_all_iters_to_one_epoch
         )
-        
+        '''
         logger.info('**********************End pre-training %s/%s(%s)**********************\n\n\n'
                     % (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
 
