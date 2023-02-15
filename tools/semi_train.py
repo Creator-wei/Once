@@ -204,7 +204,7 @@ def main():
         eval_pretrain_dir = output_dir / 'eval' / 'eval_with_pretraining'
         eval_pretrain_dir.mkdir(parents=True, exist_ok=True)
         args.start_epoch = cfg.OPTIMIZATION.PRETRAIN.NUM_EPOCHS - 10
-        
+        '''
         repeat_eval_ckpt(
             model=pretrain_model.module if dist_train else pretrain_model,
             test_loader=dataloaders['test'],
@@ -216,7 +216,7 @@ def main():
             tb_log=tb_log,
             model_type = "pretain"
         )
-        
+        '''
         logger.info('**********************End evaluation for pre-training %s/%s(%s)**********************' %
                     (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
     
@@ -279,7 +279,7 @@ def main():
     logger.info('**********************Start ssl-training %s/%s(%s)**********************'
                 % (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
     #"""
-    
+    '''
     train_ssl_model(
         teacher_model = teacher_model,
         student_model = student_model,
@@ -302,7 +302,7 @@ def main():
         merge_all_iters_to_one_epoch=args.merge_all_iters_to_one_epoch,
         dist = dist_train
     )
-    
+    '''
 
     logger.info('**********************End ssl-training %s/%s(%s)**********************\n\n\n'
                 % (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
@@ -311,7 +311,7 @@ def main():
                 (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
     eval_ssl_dir = output_dir / 'eval' / 'eval_with_student_model'
     eval_ssl_dir.mkdir(parents=True, exist_ok=True)
-    args.start_epoch = cfg.OPTIMIZATION.SEMI_SUP_LEARNING.NUM_EPOCHS 
+    args.start_epoch = cfg.OPTIMIZATION.SEMI_SUP_LEARNING.NUM_EPOCHS - 60
     repeat_eval_ckpt(
         model = student_model.module.onepass if dist_train else student_model,
         test_loader = dataloaders['test'],
@@ -330,7 +330,7 @@ def main():
                 (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
     eval_ssl_dir = output_dir / 'eval' / 'eval_with_teacher_model'
     eval_ssl_dir.mkdir(parents=True, exist_ok=True)
-    args.start_epoch = cfg.OPTIMIZATION.SEMI_SUP_LEARNING.NUM_EPOCHS 
+    args.start_epoch = cfg.OPTIMIZATION.SEMI_SUP_LEARNING.NUM_EPOCHS - 60
     if dist_train:
         teacher_model.module.onepass.set_model_type('origin') # ret filtered boxes
     else:
