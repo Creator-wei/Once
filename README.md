@@ -12,7 +12,19 @@ We provide the dataset API and some reproduced models on the ONCE dataset.
 
 ## Installation
 The repo is based on OpenPCDet. If you have already installed OpenPCDet (version >= v0.3.0), you can skip this part and use the existing environment, but remember to re-compile CUDA operators by
-
+```
+git clone https://github.com/traveller59/spconv.git --recursive
+cd spconv
+git checkout -f 7342772
+cd third_party
+git clone https://github.com/pybind/pybind11.git
+cd pybind11
+git checkout -f 085a29436a8c472caaaf7157aa644b571079bcaa
+cd /spconv
+python setup.py bdist_wheel
+cd dist
+pip install *
+```
 ```
 pip install -r requirements.txt 
 python setup.py develop
@@ -22,10 +34,8 @@ Init Conda
 
 ```
 conda create --name Once python=3.6
-conda install pytorch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0 cudatoolkit=11.1 -c pytorch -c conda-forge
-conda install cudnn
-conda install scipy
-conda install opencv
+conda install pytorch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0 
+
 ```
 
 If you haven't installed OpenPCDet, please refer to [INSTALL.md](docs/INSTALL.md) for the installation.
