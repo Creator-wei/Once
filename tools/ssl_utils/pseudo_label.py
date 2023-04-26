@@ -4,7 +4,8 @@ from .semi_utils import reverse_transform, load_data_to_gpu, construct_pseudo_la
 def pseudo_label(teacher_model, student_model,
                   ld_teacher_batch_dict, ld_student_batch_dict,
                   ud_teacher_batch_dict, ud_student_batch_dict,
-                  cfgs, epoch_id, dist
+                  cfgs, epoch_id, dist,
+                  selected_label_cls, selected_label_iou
                  ):
     assert ld_teacher_batch_dict is None # Only generate labels for unlabeled data
 
@@ -31,4 +32,4 @@ def pseudo_label(teacher_model, student_model,
 
     loss = ld_ret_dict['loss'].mean() + ud_ret_dict['loss'].mean()
 
-    return loss, tb_dict, disp_dict
+    return loss, tb_dict, disp_dict,selected_label_cls, selected_label_iou

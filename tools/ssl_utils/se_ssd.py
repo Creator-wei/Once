@@ -68,10 +68,11 @@ def sigmoid_rampup(current, rampup_start, rampup_end):
         raise Exception('Impossible condition for sigmoid rampup')
 
 def se_ssd(teacher_model, student_model,
-         ld_teacher_batch_dict, ld_student_batch_dict,
-         ud_teacher_batch_dict, ud_student_batch_dict,
-         cfgs, epoch_id, dist
-        ):
+                  ld_teacher_batch_dict, ld_student_batch_dict,
+                  ud_teacher_batch_dict, ud_student_batch_dict,
+                  cfgs, epoch_id, dist,
+                  selected_label_cls, selected_label_iou
+                 ):
     load_data_to_gpu(ld_teacher_batch_dict)
     load_data_to_gpu(ld_student_batch_dict)
     load_data_to_gpu(ud_teacher_batch_dict)
@@ -105,4 +106,4 @@ def se_ssd(teacher_model, student_model,
     consistency_weight = cfgs.CONSISTENCY_WEIGHT * sigmoid_rampup(epoch_id, cfgs.TEACHER.EMA_EPOCH[0], cfgs.TEACHER.EMA_EPOCH[1])
 
     loss = sup_loss + consistency_weight * consistency_loss
-    return loss, tb_dict, disp_dict
+    return loss, tb_dict, disp_dict,selected_label_cls, selected_label_iou
